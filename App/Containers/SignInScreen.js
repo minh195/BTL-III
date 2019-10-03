@@ -92,6 +92,7 @@ class SignInScreen extends Component {
                            value={this.state.email}
 
                 />
+
               </View>
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon}
