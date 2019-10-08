@@ -19,8 +19,9 @@ class ReduxNavigation extends React.Component {
     if (Platform.OS === 'ios') return
     BackHandler.addEventListener('hardwareBackPress', () => {
       const { dispatch, nav } = this.props
+      console.log(nav.routes[0].routeName)
       // change to whatever is your first screen, otherwise unpredictable results may occur
-      if (nav.routes.length === 1 && (nav.routes[0].routeName === 'LaunchScreen')) {
+      if (nav.routes.length === 1 && (nav.routes[0].routeName === 'AuthLoading')) {
         return false
       }
       // if (shouldCloseApp(nav)) return false
@@ -35,7 +36,7 @@ class ReduxNavigation extends React.Component {
   }
 
   render () {
-    return <ReduxAppNavigator dispatch={this.props.dispatch} state={this.props.nav} />
+    return <ReduxAppNavigator dispatch={this.props.dispatch} state={this.props.nav}/>
   }
 }
 

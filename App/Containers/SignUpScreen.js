@@ -6,24 +6,17 @@ import {
   Text,
   ImageBackground,
   TextInput,
-  Keyboard,
+  Keyboard
 } from 'react-native'
-import { connect } from 'react-redux'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-import SignInTypes from '../Redux/SignInRedux'
-import AsyncStorage from '@react-native-community/async-storage'
-// Styles
 import styles from './Styles/SignInScreenStyle'
 import { Images } from '../Themes'
-import { api } from '../Sagas'
-
-class SignInScreen extends Component {
+import Icon from 'react-native-vector-icons/FontAwesome'
+class SignUpScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: '01255946496',
-      password: '123456',
+      email: '',
+      password: '',
     }
   }
 
@@ -32,35 +25,19 @@ class SignInScreen extends Component {
       alert('You must be input email and password!!')
     } else {
       Keyboard.dismiss()
-      this._handleSignIn(email, password).then(r => {})
+      this._handleSignIn(email, password)
+      console.log(email)
+      console.log(password)
     }
   }
-
-  componentWillReceiveProps (nextProps) {
-    let response = nextProps.user.payload
-    console.log('-------', response)
-    if (response != null) {
-      this.saveUser(nextProps, response).then()
-    }
-  }
-
-  saveUser = async (nextProps, response) => {
-    api.api.setHeader('Authorization', `Bearer ${nextProps.user.payload.data.token}`)
-    if (response.status_code === 200) {
-      AsyncStorage.setItem('userToken', nextProps.user.payload.data.token)
-      console.log('token user', nextProps.user.payload.data.token)
-      nextProps.navigation.navigate('MapScreen')
-    } else {
-      alert('Username or password is un correct!')
-    }
-  }
-  _handleSignIn = async (email, password) => {
+  _handleSignIn = (email, password) => {
     let data = {
       emailData: email,
       passwordData: password
     }
     try {
-      await this.props.onFetchUser(data)
+      this.props.onFetchUser(data)
+
     } catch (e) {
       console.log(e)
     }
@@ -101,7 +78,7 @@ class SignInScreen extends Component {
                 <Image style={styles.inputIcon}
                        source={Images.iconUser}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Email address"
+                           placeholder="Email"
                            keyboardType="email-address"
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"
@@ -121,40 +98,37 @@ class SignInScreen extends Component {
                            value={this.state.password}
                 />
               </View>
+              <View style={styles.inputContainer}>
+                <Image style={styles.inputIcon}
+                       source={Images.iconPassword}/>
+                <TextInput style={styles.inputs}
+                           placeholder="Confirm password"
+                           secureTextEntry={true}
+                           underlineColorAndroid='transparent'
+                           placeholderTextColor="lightblue"
+                           onChangeText={(text) => this.setState({ password: text })}
+                           value={this.state.password}
+                />
+              </View>
               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity>
-                  <Text style={{ color: 'gray', marginLeft: 140, fontSize: 12, marginBottom: 55 }}>Forgot
-                    Password</Text>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={() => this._addData({ email: this.state.email },
                   { password: this.state.password })}>
-                  <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 16 }}>Login</Text>
+                  <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 28 }}>Sign up</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </ImageBackground>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUpScreen')}>
-            <Text style={{ color: '#73d0e2', fontSize: 16, marginTop: 30 }}>Sign Up</Text>
+          <View style={{marginRight:250}}>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('SignInScreen')}>
+            <Image style={styles.goBackIcon}
+                   source={Images.iconGoBack}/>
           </TouchableOpacity>
+          </View>
         </View>
       </View>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.signIn
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onFetchUser: (data) => {
-      console.log('fetchUser')
-      dispatch(SignInTypes.signInRequest(data))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen)
+export default SignUpScreen

@@ -3,7 +3,8 @@ const images = {
   origamiBird:require('../Images/origami-bird.png'),
   backgroundLogin:require('../Images/backgroundLogin.png'),
   iconPassword:require('../Images/iconPassword.png'),
-  iconUser:require('../Images/Icons/iconUser.png')
+  iconUser:require('../Images/Icons/iconUser.png'),
+  iconGoBack:require('../Images/left-arrow.png')
 }
 
 export default images

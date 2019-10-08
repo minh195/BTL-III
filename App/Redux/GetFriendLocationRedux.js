@@ -4,12 +4,12 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  signInRequest: ['data'],
-  signInSuccess: ['payload'],
-  signInFailure: null
+  getFriendLocationRequest: ['data'],
+  getFriendLocationSuccess: ['payload'],
+  getFriendLocationFailure: null
 })
 
-export const SignInTypes = Types
+export const GetFriendLocationTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -23,7 +23,7 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Selectors ------------- */
 
-export const SignInSelectors = {
+export const GetFriendLocationSelectors = {
   getData: state => state.data
 }
 
@@ -35,7 +35,6 @@ export const request = (state, { data }) =>
 
 // successful api lookup
 export const success = (state, action) => {
-  console.log('action success',action)
   const { payload } = action
   return state.merge({ fetching: false, error: null, payload })
 }
@@ -47,7 +46,7 @@ export const failure = state =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.SIGN_IN_REQUEST]: request,
-  [Types.SIGN_IN_SUCCESS]: success,
-  [Types.SIGN_IN_FAILURE]: failure
+  [Types.GET_FRIEND_LOCATION_REQUEST]: request,
+  [Types.GET_FRIEND_LOCATION_SUCCESS]: success,
+  [Types.GET_FRIEND_LOCATION_FAILURE]: failure
 })
