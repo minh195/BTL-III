@@ -4,7 +4,9 @@ const images = {
   backgroundLogin:require('../Images/backgroundLogin.png'),
   iconPassword:require('../Images/iconPassword.png'),
   iconUser:require('../Images/Icons/iconUser.png'),
-  iconGoBack:require('../Images/left-arrow.png')
+  iconGoBack:require('../Images/left-arrow.png'),
+  popUp:require('../Images/popUp.png'),
+  emmaStone:require('../Images/EmmaStone.jpg')
 }
 
 export default images

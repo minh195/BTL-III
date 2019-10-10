@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import styles from './Styles/SignInScreenStyle'
 import { Images } from '../Themes'
 import { api } from '../Sagas'
+import PopUpFriend from '../Components/PopUpFriend'
 
 class SignInScreen extends Component {
   constructor (props) {
@@ -89,6 +90,7 @@ class SignInScreen extends Component {
     let { email, password } = this.state
     return (
       <View style={styles.container}>
+        <PopUpFriend ref={'addModal'}/>
         <View style={styles.header}>
           <Image style={styles.origamiBird}
                  source={Images.origamiBird}/>
@@ -133,7 +135,10 @@ class SignInScreen extends Component {
               </View>
             </View>
           </ImageBackground>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUpScreen')}>
+          <TouchableOpacity onPress={() =>
+
+            this.props.navigation.navigate('SignUpScreen')
+          }>
             <Text style={{ color: '#73d0e2', fontSize: 16, marginTop: 30 }}>Sign Up</Text>
           </TouchableOpacity>
         </View>

@@ -2,11 +2,12 @@ import { createStackNavigator, createAppContainer, createSwitchNavigator } from 
 import MapScreen from '../Containers/MapScreen'
 import SignUpScreen from '../Containers/SignUpScreen'
 import SignInScreen from '../Containers/SignInScreen'
-
+import Loading from '../Components/Loading'
+import FriendDetailScreen from '../Containers/FriendDetailScreen'
 import styles from './Styles/NavigationStyles'
 import AsyncStorage from '@react-native-community/async-storage'
 import React, { Component } from 'react'
-import { ActivityIndicator, StatusBar, View } from 'react-native'
+import { View } from 'react-native'
 
 class AuthLoadingScreen extends Component {
   constructor () {
@@ -21,14 +22,12 @@ class AuthLoadingScreen extends Component {
     // screen will be unmounted and thrown away.
     this.props.navigation.navigate(userToken ? 'App' : 'Auth')
   }
-
   // Render any loading content that you like here
   render () {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator/>
-        <StatusBar barStyle="default"/>
-      </View>
+     <View style={styles.container}>
+       <Loading/>
+     </View>
     )
   }
 }
@@ -37,7 +36,8 @@ const AppStack = createStackNavigator(
   {
     MapScreen: MapScreen,
     SignInScreen: SignInScreen,
-    SignUpScreen: SignUpScreen
+    SignUpScreen: SignUpScreen,
+    FriendDetailScreen:FriendDetailScreen
   },
   {
     headerMode: 'none',
@@ -61,7 +61,7 @@ const PrimaryNav = createAppContainer(createSwitchNavigator(
     AuthLoading: AuthLoadingScreen,
     App: AppStack,
     Auth: AuthStack,
-
+    FriendDetailScreen:FriendDetailScreen
   },
   {
     initialRouteName: 'AuthLoading',
