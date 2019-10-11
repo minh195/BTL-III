@@ -13,6 +13,8 @@ import styles from './Styles/MapScreenStyle'
 import AsyncStorage from '@react-native-community/async-storage'
 import GetFriendLocationTypes from '../Redux/GetFriendLocationRedux'
 import PopUpFriend from '../Components/PopUpFriend'
+import Loading from '../Components/Loading'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const heights = Dimensions.get('window').height
 const widths = Dimensions.get('window').width
@@ -22,13 +24,16 @@ class MapScreen extends Component {
     super(props)
     this.state = {
       data: [],
-      makerData: {}
+      makerData: {},
+      isLoading: true
     }
   }
 
   _signOutAsync = async () => {
+    console.log('log out')
+    await this.props.onFetchClear()
     await AsyncStorage.clear()
-    this.props.navigation.navigate('AuthLoading')
+    await this.props.navigation.navigate('SignInScreen')
   }
   _showDetailFriend = async (friendData) => {
     //show friend
@@ -43,16 +48,18 @@ class MapScreen extends Component {
     this.props.onFetchFriend()
   }
 
-  componentWillReceiveProps (nextProps) {
+  static getDerivedStateFromProps (nextProps) {
     const response = nextProps.friends.payload
     if (response != null) {
       console.log('status_code = ', response.status_code)
       if (response.status_code === 200) {
-        this.setState((state) => {
-          return { data: response.data }
-        })
+        return {
+          isLoading: false,
+          data: response.data
+        }
       }
     }
+    return null
   }
 
   showFriends = (data) => {
@@ -69,8 +76,7 @@ class MapScreen extends Component {
         }}
         title={marker.fullname}
         onPress={() => {this.refs.addModal.showModal(marker)}
-        }
-      >
+        }>
         <View style={{
           flex: 1,
           flexDirection: 'row',
@@ -88,37 +94,43 @@ class MapScreen extends Component {
       </Marker>
     ))
   }
+
   render () {
-    const { data } = this.state
+    const { data, isLoading } = this.state
+    if (isLoading) {
+      return (
+        <Loading/>
+      )
+    }
     return (
       <View>
-        <View style={{
-          backgroundColor: 'transparent',
-        }}>
-          <PopUpFriend ref={'addModal'} showFriend={this._showDetailFriend}/>
-          <TouchableOpacity onPress={this._signOutAsync}>
-            <Text style={{ color: 'black' }}>Log out</Text>
-          </TouchableOpacity>
-        </View>
 
+        <PopUpFriend ref={'addModal'} showFriend={this._showDetailFriend}/>
+        <MapView
+          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          style={{
+            height: heights,
+            width: widths,
+          }}
+          initialRegion={{
+            latitude: 21.0339828,
+            longitude: 105.7653803,
+            latitudeDelta: 0.09221,
+            longitudeDelta: 0.04211,
+          }}>
+
+          {this.showFriends(data)}
+        </MapView>
         <View style={{
-          height: heights,
-          width: widths,
+          flexDirection: 'row',
+          marginVertical: 20,
+          marginLeft:20,
+          backgroundColor: 'transparent',
+          position: 'absolute'
         }}>
-          <MapView
-            provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-            style={{
-              height: heights,
-              width: widths,
-            }}
-            initialRegion={{
-              latitude: 21.0339828,
-              longitude: 105.7653803,
-              latitudeDelta: 0.09221,
-              longitudeDelta: 0.04211,
-            }}>
-            {this.showFriends(data)}
-          </MapView>
+          <TouchableOpacity onPress={this._signOutAsync}>
+            <Icon name="sign-out" size={25} color="#82C91E"/>
+          </TouchableOpacity>
         </View>
       </View>
     )
@@ -133,8 +145,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchFriend: () => {
-      console.log('fetchFriend')
+      console.log('Fetch friend')
       dispatch(GetFriendLocationTypes.getFriendLocationRequest())
+    },
+    onFetchClear: () => {
+      console.log('Clear redux')
+      dispatch(GetFriendLocationTypes.getFriendLocationClear())
     }
   }
 }

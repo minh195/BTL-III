@@ -79,7 +79,6 @@ export default class PopUpFriend extends Component {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginLeft: 30
               }}>
                 <TouchableOpacity style={styles.buttonNext}
                                   onPress={this._showFriend}>
@@ -94,7 +93,7 @@ export default class PopUpFriend extends Component {
               flex: 1,
               flexDirection: 'row',
               alignItems: 'center',
-              marginRight: 80
+
             }}>
               <Image source={
                 { uri: this.state.friendData.url_bks }}
@@ -105,8 +104,7 @@ export default class PopUpFriend extends Component {
                      }}/>
               <Text style={{
                 color: 'gray',
-                marginLeft: 40
-              }}>1/8</Text>
+              }}> 1/8</Text>
             </View>
           </View>
         </View>

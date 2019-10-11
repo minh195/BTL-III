@@ -18,6 +18,8 @@ import styles from './Styles/SignInScreenStyle'
 import { Images } from '../Themes'
 import { api } from '../Sagas'
 import PopUpFriend from '../Components/PopUpFriend'
+import resetAction, {NavigationActions,StackActions} from 'react-navigation'
+import MapScreen from './MapScreen'
 
 class SignInScreen extends Component {
   constructor (props) {
@@ -50,7 +52,11 @@ class SignInScreen extends Component {
     if (response.status_code === 200) {
       AsyncStorage.setItem('userToken', nextProps.user.payload.data.token)
       console.log('token user', nextProps.user.payload.data.token)
-      nextProps.navigation.navigate('MapScreen')
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({routeName: 'MapScreen'})]
+      })
+      nextProps.navigation.dispatch(resetAction)
     } else {
       alert('Username or password is un correct!')
     }
@@ -66,13 +72,11 @@ class SignInScreen extends Component {
       console.log(e)
     }
   }
-  submitAndClear = () => {
-    this.setState({
-      text: ''
+  async componentDidMount () {
+    await AsyncStorage.getItem('userToken').then((userToken) => {
+      this.props.navigation.navigate(userToken ? 'MapScreen': 'SignInScreen')
     })
-  }
 
-  componentDidMount () {
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
     )
@@ -82,12 +86,13 @@ class SignInScreen extends Component {
   }
 
   componentWillUnmount () {
-    this.keyboardDidShowListener.remove()
-    this.keyboardDidHideListener.remove()
+   // this.keyboardDidShowListener.remove()
+   // this.keyboardDidHideListener.remove()
   }
 
   render () {
     let { email, password } = this.state
+
     return (
       <View style={styles.container}>
         <PopUpFriend ref={'addModal'}/>
@@ -130,13 +135,12 @@ class SignInScreen extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this._addData({ email: this.state.email },
                   { password: this.state.password })}>
-                  <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 16 }}>Login</Text>
+                  <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 14 }}>Login</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </ImageBackground>
           <TouchableOpacity onPress={() =>
-
             this.props.navigation.navigate('SignUpScreen')
           }>
             <Text style={{ color: '#73d0e2', fontSize: 16, marginTop: 30 }}>Sign Up</Text>

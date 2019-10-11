@@ -1,12 +1,14 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
+import { reset } from 'enzyme/src/configuration'
 
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
   getFriendLocationRequest: ['data'],
   getFriendLocationSuccess: ['payload'],
-  getFriendLocationFailure: null
+  getFriendLocationFailure: null,
+  getFriendLocationClear: null
 })
 
 export const GetFriendLocationTypes = Types
@@ -43,10 +45,14 @@ export const success = (state, action) => {
 export const failure = state =>
   state.merge({ fetching: false, error: true, payload: null })
 
+export const clearData = state =>
+  INITIAL_STATE
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_FRIEND_LOCATION_REQUEST]: request,
   [Types.GET_FRIEND_LOCATION_SUCCESS]: success,
-  [Types.GET_FRIEND_LOCATION_FAILURE]: failure
+  [Types.GET_FRIEND_LOCATION_FAILURE]: failure,
+  [Types.GET_FRIEND_LOCATION_CLEAR]: clearData
 })

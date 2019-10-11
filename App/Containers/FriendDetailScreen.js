@@ -4,50 +4,14 @@ import {
   View,
   TouchableOpacity,
   FlatList,
-  ImageBackground
+  ImageBackground,
+  Image
 } from 'react-native'
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 // Styles
 import styles from './Styles/FriendDetailScreenStyle'
-class FlatListItem extends Component {
-  render() {
-    return (
-      <View style={{
-        flex: 1,
-        flexDirection:'column',
-      }}>
-        <View style={{
-          flex: 1,
-          flexDirection:'row',
-          // backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
-          backgroundColor: 'mediumseagreen'
-        }}>
-          <Image
-            source={{uri: this.props.item.imageUrl}}
-            style={{width: 100, height: 100, margin: 5}}
-          >
 
-          </Image>
-          <View style={{
-            flex: 1,
-            flexDirection:'column',
-            height: 100
-          }}>
-            <Text style={styles.flatListItem}>{this.props.item.name}</Text>
-            <Text style={styles.flatListItem}>{this.props.item.foodDescription}</Text>
-          </View>
-        </View>
-        <View style={{
-          height: 1,
-          backgroundColor:'white'
-        }}>
-
-        </View>
-      </View>
-    );
-  }
-}
 class FriendDetailScreen extends Component {
   constructor (props) {
     super(props)
@@ -63,19 +27,19 @@ class FriendDetailScreen extends Component {
     this.setState((state) => {
       return { friendDetail: dataReceiver }
     })
-
   }
 
-  _renderItem = ({ item }) => {
+  _renderItem = () => {
     return (
       <View
         style={{
-          padding: 16,
-          backgroundColor: 'green',
-          width: 110,
-          height: 80,
+          padding: 10
         }}>
-        <Text>{item.key}</Text>
+        <Image source={{ uri: this.state.friendDetail.url_cmt1 }}
+               style={{
+                 width: 110,
+                 height: 80
+               }}/>
       </View>
     )
   }
@@ -83,17 +47,15 @@ class FriendDetailScreen extends Component {
   render () {
     console.log('Passing parameters to routes: ', this.state.friendDetail)
     const { goBack } = this.props.navigation
-    const dataReceive=this.state.friendDetail
+    const dataReceive = this.state.friendDetail
     return (
-
       <View style={{
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-
-        <ImageBackground source={{uri:dataReceive.url_avatar}}
+        <ImageBackground source={{ uri: dataReceive.url_avatar }}
                          style={styles.friendAvatar}>
           <TouchableOpacity
             onPress={() => goBack()}
@@ -102,7 +64,7 @@ class FriendDetailScreen extends Component {
               marginTop: 20,
               marginLeft: 20
             }}>
-              <Icon name="long-arrow-left" size={25} color="#FFFFFF"/>
+              <Icon name="arrow-circle-left" size={25} color="#82C91E"/>
             </View>
           </TouchableOpacity>
         </ImageBackground>
@@ -176,12 +138,15 @@ class FriendDetailScreen extends Component {
             justifyContent: 'flex-end'
           }}>
             <FlatList
-              data={[{ key: 1 }, { key: 2 }, { key: 3 }]}
+              data={[
+                { key: 1 },
+                { key: 2 },
+                { key: 3 },
+                { key: 4 }
+              ]}
               renderItem={this._renderItem}
               horizontal={true}
-              ItemSeparatorComponent={() => <View style={{ margin: 4 }}/>}
             />
-
           </View>
           <View/>
         </View>

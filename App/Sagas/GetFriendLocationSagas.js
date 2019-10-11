@@ -9,7 +9,6 @@ export function * getGetFriendLocation (api, action) {
   console.log(response)
   // success?
   if (response.ok) {
-
     yield put(GetFriendLocationActions.getFriendLocationSuccess(response.data))
   } else {
     yield put(GetFriendLocationActions.getFriendLocationFailure())

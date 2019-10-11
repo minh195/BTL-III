@@ -11,7 +11,12 @@ export default StyleSheet.create({
   },
   markerName: {
     fontSize: 10,
-    fontWeight:'bold',
+    fontWeight: 'bold',
     color: '#000000',
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
