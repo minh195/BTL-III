@@ -46,40 +46,20 @@ export default class PopUpFriend extends Component {
              animated={true}>
         <View style={styles.popUpTransparent}>
           <View style={styles.containerPopUp}>
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
-              <View style={{
-                justifyContent: 'center',
-                marginLeft: 25
-              }}>
-                <Image source={
-                  { uri: this.state.friendData.url_avatar }
-                }
+            <View style={styles.headerContainer}>
+              <View style={styles.avatar}>
+                <Image source={{ uri: this.state.friendData.url_avatar }}
                        style={styles.popUpImage}/>
               </View>
-              <View style={{
-                marginLeft: 10
-              }}>
+              <View style={styles.textContainer}>
                 <Text style={styles.textWelcome}>
-
                   {this.state.friendData.fullname}
                 </Text>
-                <Text style={{
-                  fontSize: 12
-                }}>
+                <Text style={styles.birthDayText}>
                   {this.state.friendData.birth_day}
                 </Text>
               </View>
-              <View style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+              <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.buttonNext}
                                   onPress={this._showFriend}>
                   <Text style={styles.textNext}>Follow</Text>
@@ -89,22 +69,10 @@ export default class PopUpFriend extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-
-            }}>
-              <Image source={
-                { uri: this.state.friendData.url_bks }}
-                     style={{
-                       height: 80,
-                       width: 180,
-                       borderRadius: 15
-                     }}/>
-              <Text style={{
-                color: 'gray',
-              }}> 1/8</Text>
+            <View style={styles.footerContainer}>
+              <Image source={{ uri: this.state.friendData.url_bks }}
+                     style={styles.imageShot}/>
+              <Text style={styles.counterText}> 1/8</Text>
             </View>
           </View>
         </View>

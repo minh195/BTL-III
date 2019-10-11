@@ -9,8 +9,8 @@ export default StyleSheet.create({
   },
   containerPopUp: {
     flex: 1,
-     flexDirection: 'column',
-     justifyContent: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     shadowRadius: 10,
     marginLeft: 30,
@@ -20,13 +20,13 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
   },
-   popUpImage: {
+  popUpImage: {
     width: 50,
     height: 50,
-    borderRadius:30
+    borderRadius: 30
   }, topImage: {
     flex: 1,
-    flexDirection:'row',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   }, buttonNext: {
@@ -47,11 +47,46 @@ export default StyleSheet.create({
   }, textWelcome: {
     fontSize: 20,
 
-    color:'black'
+    color: 'black'
   }, textIntro: {
     fontSize: 20,
     textAlign: 'center',
     padding: 15,
     marginTop: 40,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  birthDayText: {
+    fontSize: 12
+  },
+  textContainer: {
+    marginLeft: 10
+  },
+  avatar: {
+    justifyContent: 'center',
+    marginLeft: 25
+  },
+  headerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  imageShot: {
+    height: 80,
+    width: 180,
+    borderRadius: 15
+  },
+  counterText: {
+    color: 'gray',
+  },
+  footerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   }
 })

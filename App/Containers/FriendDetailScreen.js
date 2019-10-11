@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/FontAwesome'
 // Styles
 import styles from './Styles/FriendDetailScreenStyle'
+import { NavigationActions } from 'react-navigation'
 
 class FriendDetailScreen extends Component {
   constructor (props) {
@@ -32,69 +33,35 @@ class FriendDetailScreen extends Component {
   _renderItem = () => {
     return (
       <View
-        style={{
-          padding: 10
-        }}>
+        style={styles.imageFlatList}>
         <Image source={{ uri: this.state.friendDetail.url_cmt1 }}
-               style={{
-                 width: 110,
-                 height: 80
-               }}/>
+               style={styles.imageRecent}/>
       </View>
     )
   }
+  _handleGoBack = () => this.props.navigation.dispatch(NavigationActions.back())
 
   render () {
     console.log('Passing parameters to routes: ', this.state.friendDetail)
-    const { goBack } = this.props.navigation
     const dataReceive = this.state.friendDetail
     return (
-      <View style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
+      <View style={styles.container}>
         <ImageBackground source={{ uri: dataReceive.url_avatar }}
                          style={styles.friendAvatar}>
-          <TouchableOpacity
-            onPress={() => goBack()}
-          >
-            <View style={{
-              marginTop: 20,
-              marginLeft: 20
-            }}>
+          <TouchableOpacity onPress={this._handleGoBack}>
+            <View style={styles.backIcon}>
               <Icon name="arrow-circle-left" size={25} color="#82C91E"/>
             </View>
           </TouchableOpacity>
         </ImageBackground>
         <View>
-          <View style={{
-            width: 300,
-            height: 180,
-            backgroundColor: 'blue',
-            marginTop: -40,
-            borderRadius: 10
-          }}>
-            <View style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 90,
-              backgroundColor: '#FFFFFF'
-            }}>
-              <Text style={{ color: 'black', fontSize: 24 }}>{dataReceive.fullname}</Text>
-              <Text style={{ color: 'black', fontSize: 14 }}>{dataReceive.company_name}</Text>
+          <View style={styles.infoContainer}>
+            <View style={styles.infoHeader}>
+              <Text style={styles.fullNameText}>{dataReceive.fullname}</Text>
+              <Text style={styles.companyText}>{dataReceive.company_name}</Text>
             </View>
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              height: 90,
-              backgroundColor: '#F8F8F8'
-            }}>
-              <View style={{}}>
+            <View style={styles.counterContainer}>
+              <View>
                 <Text style={styles.textNumber}>5,485</Text>
                 <Text>Followers</Text>
               </View>
@@ -108,35 +75,15 @@ class FriendDetailScreen extends Component {
               </View>
             </View>
           </View>
-          <View style={{
-            alignItems: 'center',
-            marginTop: -20,
-          }}>
-            <TouchableOpacity style={{
-              width: 120,
-              height: 35,
-              backgroundColor: '#22AD8C',
-            }}>
-              <Text style={{
-                fontSize: 16,
-                color: 'white',
-                textAlign: 'center',
-                paddingTop: 5
-              }}>+ Follow</Text>
+          <View style={styles.followButton}>
+            <TouchableOpacity style={styles.followTouch}>
+              <Text style={styles.followText}>+ Follow</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{
-          flex: 1,
-          justifyContent: 'flex-end',
-          marginTop: 20
-        }}>
-          <View>
-            <Text>Recent shots</Text></View>
-          <View style={{
-            flex: 1,
-            justifyContent: 'flex-end'
-          }}>
+        <View style={styles.footerContainer}>
+          <Text>Recent shots</Text>
+          <View style={styles.flatListContainer}>
             <FlatList
               data={[
                 { key: 1 },
@@ -145,8 +92,7 @@ class FriendDetailScreen extends Component {
                 { key: 4 }
               ]}
               renderItem={this._renderItem}
-              horizontal={true}
-            />
+              horizontal={true}/>
           </View>
           <View/>
         </View>

@@ -6,64 +6,20 @@ import {
   Text,
   ImageBackground,
   TextInput,
-  Keyboard
 } from 'react-native'
-import styles from './Styles/SignInScreenStyle'
+//import Style
+import styles from './Styles/SignUpScreenStyle'
 import { Images } from '../Themes'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { NavigationActions } from 'react-navigation'
+
 class SignUpScreen extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      email: '',
-      password: '',
-    }
   }
 
-  _addData = (email, password) => {
-    if (this.state.email === '' || this.state.password === '') {
-      alert('You must be input email and password!!')
-    } else {
-      Keyboard.dismiss()
-      this._handleSignIn(email, password)
-      console.log(email)
-      console.log(password)
-    }
-  }
-  _handleSignIn = (email, password) => {
-    let data = {
-      emailData: email,
-      passwordData: password
-    }
-    try {
-      this.props.onFetchUser(data)
-
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  submitAndClear = () => {
-    this.setState({
-      text: ''
-    })
-  }
-
-  componentDidMount () {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-    )
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-    )
-  }
-
-  componentWillUnmount () {
-    this.keyboardDidShowListener.remove()
-    this.keyboardDidHideListener.remove()
-  }
+  _handleGoBack = () => this.props.navigation.dispatch(NavigationActions.back())
 
   render () {
-    let { email, password } = this.state
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -72,8 +28,8 @@ class SignUpScreen extends Component {
         </View>
         <View style={styles.content}>
           <ImageBackground source={Images.backgroundLogin}
-                           style={{ height: 350, width: 300 }}>
-            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', marginTop: 120 }}>
+                           style={styles.imageBackgroundLogin}>
+            <View style={styles.loginContainer}>
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon}
                        source={Images.iconUser}/>
@@ -81,10 +37,7 @@ class SignUpScreen extends Component {
                            placeholder="Email"
                            keyboardType="email-address"
                            underlineColorAndroid='transparent'
-                           placeholderTextColor="lightblue"
-                           onChangeText={(text) => this.setState({ email: text })}
-                           value={this.state.email}
-                />
+                           placeholderTextColor="lightblue"/>
               </View>
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon}
@@ -93,10 +46,7 @@ class SignUpScreen extends Component {
                            placeholder="Password"
                            secureTextEntry={true}
                            underlineColorAndroid='transparent'
-                           placeholderTextColor="lightblue"
-                           onChangeText={(text) => this.setState({ password: text })}
-                           value={this.state.password}
-                />
+                           placeholderTextColor="lightblue"/>
               </View>
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon}
@@ -105,30 +55,25 @@ class SignUpScreen extends Component {
                            placeholder="Confirm password"
                            secureTextEntry={true}
                            underlineColorAndroid='transparent'
-                           placeholderTextColor="lightblue"
-                           onChangeText={(text) => this.setState({ password: text })}
-                           value={this.state.password}
-                />
+                           placeholderTextColor="lightblue"/>
               </View>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => this._addData({ email: this.state.email },
-                  { password: this.state.password })}>
-                  <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, marginTop: 28 }}>Sign up</Text>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity>
+                  <Text style={styles.signUpButton}>Sign up</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </ImageBackground>
-          <View style={{marginRight:250}}>
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate('SignInScreen')}>
-            <Image style={styles.goBackIcon}
-                   source={Images.iconGoBack}/>
-          </TouchableOpacity>
+          <View style={styles.footerContainer}>
+            <TouchableOpacity onPress={this._handleGoBack}>
+              <Image style={styles.goBackIcon}
+                     source={Images.iconGoBack}/>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
     )
   }
 }
-
 
 export default SignUpScreen

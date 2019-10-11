@@ -3,31 +3,30 @@ import { ApplicationStyles } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
-  container:{
-    flex:1,
-    backgroundColor:'#EFF5FF'
-    //backgroundColor:'black'
-  },
-  header:{
+  container: {
     flex: 1,
-    justifyContent:'center',
-    flexDirection:'column',
-    alignItems:'center'
+    backgroundColor: '#EFF5FF'
   },
-  origamiBird:{
-    height:80,
-    width:90
+  header: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
-  backgroundLogin:{
-    height:350,
-    width:300
+  origamiBird: {
+    height: 80,
+    width: 90
   },
-  content:{
-    flex:1,
+  backgroundLogin: {
+    height: 350,
+    width: 300
+  },
+  content: {
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom:100
+    marginBottom: 100
   },
   inputContainer: {
     borderBottomColor: 'lightblue',
@@ -52,8 +51,32 @@ export default StyleSheet.create({
     marginLeft: 15,
     justifyContent: 'center',
   },
-  goBackIcon:{
+  goBackIcon: {
     width: 30,
     height: 30,
+  },
+  loginContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 120
+  },
+  imageBackgroundLogin: {
+    height: 350,
+    width: 300
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  signUpButton: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginTop: 28
+  },
+  footerContainer: {
+    marginRight: 250
   }
 })
