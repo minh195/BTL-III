@@ -39,20 +39,21 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: 'black',
+
   }, inputs: {
     height: 45,
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',
     flex: 1,
-  },
-  inputIcon: {
+  }, inputIcon: {
     width: 16,
     height: 20,
     marginLeft: 15,
     justifyContent: 'center',
   },
-  imageBackgroundLogin: {
-    height: 350, width: 300
+  goBackIcon: {
+    width: 30,
+    height: 30,
   },
   loginContainer: {
     flex: 1,
@@ -60,27 +61,22 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: 120
   },
+  imageBackgroundLogin: {
+    height: 350,
+    width: 300
+  },
   buttonContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  forgotButton: {
-    color: 'gray',
-    marginLeft: 140,
-    fontSize: 12,
-    marginBottom: 55
-  },
-  loginButton: {
+  signUpButton: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
-    marginTop: 14
+    marginTop: 28
   },
-  signUpButton: {
-    color: '#73d0e2',
-    fontSize: 16,
-    marginTop: 30
-  },
-
+  footerContainer: {
+    marginRight: 250
+  }
 })
