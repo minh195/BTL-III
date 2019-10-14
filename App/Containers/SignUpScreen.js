@@ -4,13 +4,15 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  ImageBackground,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native'
-//import Style
-import styles from './Styles/SignUpScreenStyle'
+import { connect } from 'react-redux'
+import { NavigationActions, StackActions } from 'react-navigation'
+import PopUpFriend from '../Components/PopUpFriend'
+// Styles
+import styles from './Styles/SignInScreenStyle'
 import { Images } from '../Themes'
-import { NavigationActions } from 'react-navigation'
 
 class SignUpScreen extends Component {
   constructor (props) {
@@ -21,20 +23,24 @@ class SignUpScreen extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Image style={styles.origamiBird}
-                 source={Images.origamiBird}/>
-        </View>
-        <View style={styles.content}>
-          <ImageBackground source={Images.backgroundLogin}
-                           style={styles.imageBackgroundLogin}>
+      <KeyboardAvoidingView style={styles.keyBoardAvoidingView} behavior="height">
+        <View style={styles.container}>
+          <PopUpFriend ref={'addModal'}/>
+          <View style={styles.header}>
+            <Image style={styles.origamiBird}
+                   source={Images.origamiBird}/>
+          </View>
+          <View style={styles.content}>
+            <Image style={styles.avatarUser}
+                   source={Images.avatarUser}/>
+            <Image style={styles.topLoginFrom}
+                   source={Images.topLoginFrom}/>
             <View style={styles.loginContainer}>
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon}
                        source={Images.iconUser}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Email"
+                           placeholder="Email address"
                            keyboardType="email-address"
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"/>
@@ -52,28 +58,35 @@ class SignUpScreen extends Component {
                 <Image style={styles.inputIcon}
                        source={Images.iconPassword}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Confirm password"
+                           placeholder="Password"
                            secureTextEntry={true}
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"/>
               </View>
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity>
-                  <Text style={styles.signUpButton}>Sign up</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={styles.forgotButton}>
+                <Text style={styles.forgotText}>Forgot Password</Text>
+              </TouchableOpacity>
             </View>
-          </ImageBackground>
-          <View style={styles.footerContainer}>
-            <TouchableOpacity onPress={this._handleGoBack}>
+            <TouchableOpacity onPress={this._handleAddData} style={styles.loginButton}>
+              <Text style={styles.loginText}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._handleGoBack} style={styles.footerIcon}>
               <Image style={styles.goBackIcon}
                      source={Images.iconGoBack}/>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
 
-export default SignUpScreen
+const mapStateToProps = (state) => {
+  return {}
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)

@@ -1,32 +1,57 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles } from '../../Themes/'
 
 export default StyleSheet.create({
-  ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: '#EFF5FF'
+    backgroundColor: '#EFF5FF',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  keyBoardAvoidingView: {
+    flex: 1
   },
   header: {
-    flex: 1,
-    justifyContent: 'center',
+    flex: 0.3,
     flexDirection: 'column',
-    alignItems: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   origamiBird: {
     height: 80,
     width: 90
   },
-  backgroundLogin: {
-    height: 350,
-    width: 300
-  },
   content: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 100
+  },
+  avatarUser: {
+    height: 77,
+    width: 77,
+    zIndex: 10
+  },
+  topLoginFrom: {
+    marginTop: -85,
+    height: 119,
+    width: 300
+  },
+  loginContainer: {
+    flex: 0.6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 300,
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+    // elevation: 5,
   },
   inputContainer: {
     borderBottomColor: 'lightblue',
@@ -39,7 +64,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: 'black',
-  }, inputs: {
+  },
+  inputs: {
     height: 45,
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',
@@ -51,36 +77,44 @@ export default StyleSheet.create({
     marginLeft: 15,
     justifyContent: 'center',
   },
-  imageBackgroundLogin: {
-    height: 350, width: 300
-  },
-  loginContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 120
-  },
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   forgotButton: {
+    marginLeft: 140
+  },
+  forgotText: {
     color: 'gray',
-    marginLeft: 140,
     fontSize: 12,
-    marginBottom: 55
+  },
+  footerButton: {
+    flex: 0.15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footerIcon: {
+    flex: 0.2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 250
   },
   loginButton: {
+    backgroundColor: '#73d0e2',
+    height: 40,
+    width: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    marginTop: -20,
+  },
+  loginText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
-    marginTop: 14
   },
   signUpButton: {
     color: '#73d0e2',
     fontSize: 16,
-    marginTop: 30
   },
-
+  goBackIcon: {
+    width: 30,
+    height: 30,
+  },
 })

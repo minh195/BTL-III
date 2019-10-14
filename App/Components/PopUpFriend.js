@@ -47,10 +47,8 @@ export default class PopUpFriend extends Component {
         <View style={styles.popUpTransparent}>
           <View style={styles.containerPopUp}>
             <View style={styles.headerContainer}>
-              <View style={styles.avatar}>
-                <Image source={{ uri: this.state.friendData.url_avatar }}
-                       style={styles.popUpImage}/>
-              </View>
+              <Image source={{ uri: this.state.friendData.url_avatar }}
+                     style={styles.popUpImage}/>
               <View style={styles.textContainer}>
                 <Text style={styles.textWelcome}>
                   {this.state.friendData.fullname}
