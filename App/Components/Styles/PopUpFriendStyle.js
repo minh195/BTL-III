@@ -46,7 +46,6 @@ export default StyleSheet.create({
     fontWeight: 'bold'
   }, textWelcome: {
     fontSize: 20,
-
     color: 'black'
   }, textIntro: {
     fontSize: 20,
@@ -74,7 +73,8 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft:25
   },
   imageShot: {
     height: 80,

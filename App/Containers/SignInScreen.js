@@ -4,9 +4,10 @@ import {
   Image,
   TouchableOpacity,
   Text,
-  ImageBackground,
   TextInput,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -33,8 +34,8 @@ class SignInScreen extends Component {
     }
   }
 
-  async componentDidMount () {
-    await AsyncStorage.getItem('userToken').then((userToken) => {
+  componentDidMount () {
+    AsyncStorage.getItem('userToken').then((userToken) => {
       this.props.navigation.navigate(userToken ? 'MapScreen' : 'SignInScreen')
     })
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -96,15 +97,18 @@ class SignInScreen extends Component {
   render () {
     let { email, password } = this.state
     return (
-      <View style={styles.container}>
-        <PopUpFriend ref={'addModal'}/>
-        <View style={styles.header}>
-          <Image style={styles.origamiBird}
-                 source={Images.origamiBird}/>
-        </View>
-        <View style={styles.content}>
-          <ImageBackground source={Images.backgroundLogin}
-                           style={styles.imageBackgroundLogin}>
+      <KeyboardAvoidingView style={styles.keyBoardAvoidingView} behavior="height">
+        <View style={styles.container}>
+          <PopUpFriend ref={'addModal'}/>
+          <View style={styles.header}>
+            <Image style={styles.origamiBird}
+                   source={Images.origamiBird}/>
+          </View>
+          <View style={styles.content}>
+            <Image style={styles.avatarUser}
+                   source={Images.avatarUser}/>
+            <Image style={styles.topLoginFrom}
+                   source={Images.topLoginFrom}/>
             <View style={styles.loginContainer}>
               <View style={styles.inputContainer}>
                 <Image style={styles.inputIcon}
@@ -128,21 +132,19 @@ class SignInScreen extends Component {
                            onChangeText={this._onChangePassword}
                            value={this.state.password}/>
               </View>
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity>
-                  <Text style={styles.forgotButton}>Forgot Password</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this._handleAddData}>
-                  <Text style={styles.loginButton}>Login</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={styles.forgotButton}>
+                <Text style={styles.forgotText}>Forgot Password</Text>
+              </TouchableOpacity>
             </View>
-          </ImageBackground>
-          <TouchableOpacity onPress={this._handleSignUp}>
-            <Text style={styles.signUpButton}>Sign Up</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={this._handleAddData} style={styles.loginButton}>
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._handleSignUp} style={styles.footerButton}>
+              <Text style={styles.signUpButton}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
