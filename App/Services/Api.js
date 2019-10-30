@@ -1,6 +1,5 @@
 import apisauce from 'apisauce'
 import { head } from 'ramda'
-import AsyncStorage from '@react-native-community/async-storage'
 
 const create = (baseURL = 'https://api.bonbon24h.com.vn') => {
   const api = apisauce.create({
@@ -24,8 +23,31 @@ const create = (baseURL = 'https://api.bonbon24h.com.vn') => {
     api
   }
 }
+const create2 = (baseURL = `http://ghuntur.com`) => {
+  const api2 = apisauce.create({
+    // base URL is read from the "constructor"
+    baseURL,
+    // here are some default headers
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    // 10 second timeout...
+    timeout: 10000
+  })
+  const getMess = (data) => api2.get(
+    `/simsim.php?lc=en&deviceId=&bad0=&txt=`,
+    {
+      lc: 'en',
+      txt: data
+    })
+  return {
+    getMess
+  }
+}
 
 // let's return back our create method as the default.
 export default {
-  create
+  create,
+  create2
 }

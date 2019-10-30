@@ -1,18 +1,37 @@
 import { StyleSheet } from 'react-native'
-import { Metrics, ApplicationStyles } from '../../Themes/'
 
 export default StyleSheet.create({
-  ...ApplicationStyles.screen,
-  container: {
-    paddingBottom: Metrics.baseMargin
+  mainContainer: {
+    flex: 1,
   },
-  logo: {
-    marginTop: Metrics.doubleSection,
-    height: Metrics.images.logo,
-    width: Metrics.images.logo,
-    resizeMode: 'contain'
+  backgroundImage: {
+    flex: 1,
+    height: '100%',
+    width: '100%',
+    justifyContent: 'flex-end',
   },
-  centered: {
-    alignItems: 'center'
+  logoLaunch: {
+    height: 120,
+    width: 200,
+    alignSelf: 'center'
+  },
+  buttonStyle: {
+    backgroundColor: '#005DBD',
+    height: 40,
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize:16
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginBottom: 20
   }
 })

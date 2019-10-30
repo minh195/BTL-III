@@ -11,6 +11,7 @@ export const reducers = combineReducers({
   getFriend:require('./GetFriendLocationRedux').reducer,
   github: require('./GithubRedux').reducer,
   search: require('./SearchRedux').reducer,
+  messageReducer: require('./GetMessageRedux').reducer,
 })
 
 export default () => {
