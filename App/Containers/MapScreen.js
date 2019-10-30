@@ -4,10 +4,10 @@ import {
   View,
   TouchableOpacity,
   Image,
+  AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
-import AsyncStorage from '@react-native-community/async-storage'
 
 //import components
 import GetFriendLocationTypes from '../Redux/GetFriendLocationRedux'

@@ -8,13 +8,13 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import SignInTypes from '../Redux/SignInRedux'
 
-import AsyncStorage from '@react-native-community/async-storage'
 import { NavigationActions, StackActions } from 'react-navigation'
 
 //import components
@@ -36,7 +36,7 @@ class SignInScreen extends Component {
 
   componentDidMount () {
     AsyncStorage.getItem('userToken').then((userToken) => {
-      this.props.navigation.navigate(userToken ? 'MapScreen' : 'SignInScreen')
+      this.props.navigation.navigate(userToken ? 'Drawer' : 'SignInScreen')
     })
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -87,7 +87,7 @@ class SignInScreen extends Component {
       console.log('token user', nextProps.user.payload.data.token)
       const resetAction = StackActions.reset({
         index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'MapScreen' })]
+        actions: [NavigationActions.navigate({ routeName: 'Drawer' })]
       })
       nextProps.navigation.dispatch(resetAction)
     }

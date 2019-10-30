@@ -4,17 +4,20 @@ import API from '../Services/Api'
 /* ------------- Types ------------- */
 
 import { SignInTypes } from '../Redux/SignInRedux'
-import {GetFriendLocationTypes} from '../Redux/GetFriendLocationRedux'
+import { GetFriendLocationTypes } from '../Redux/GetFriendLocationRedux'
+import { GetMessageTypes } from '../Redux/GetMessageRedux'
 /* ------------- Sagas ------------- */
 
 import { getSignIn } from './SignInSagas'
 import { getGetFriendLocation } from './GetFriendLocationSagas'
-import AsyncStorage from '@react-native-community/async-storage'
+import { AsyncStorage } from 'react-native'
+import { getMessage } from './GetMessageSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
 // to the sagas which need it.
 export const api = API.create()
+export const api2 = API.create2()
 
 /* ------------- Connect Types To Sagas ------------- */
 AsyncStorage.getItem('userToken').then((value => {
@@ -24,6 +27,7 @@ export default function * root () {
   yield all([
     // some sagas receive extra parameters in addition to an action
     takeLatest(SignInTypes.SIGN_IN_REQUEST, getSignIn, api),
-    takeLatest(GetFriendLocationTypes.GET_FRIEND_LOCATION_REQUEST, getGetFriendLocation, api)
+    takeLatest(GetFriendLocationTypes.GET_FRIEND_LOCATION_REQUEST, getGetFriendLocation, api),
+    takeLatest(GetMessageTypes.GET_MESSAGE_REQUEST, getMessage, api2)
   ])
 }
