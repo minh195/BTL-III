@@ -16,6 +16,7 @@ import PopUpMoDal from '../Components/PopUpMoDal'
 import Loading from '../Components/Loading'
 import { connect } from 'react-redux'
 import GetMessageTypes from '../Redux/GetMessageRedux'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 class ChatScreen extends Component {
   constructor (props) {
@@ -58,6 +59,9 @@ class ChatScreen extends Component {
     this.setState({
       text: ''
     })
+  }
+  openDrawer = () => {
+    this.props.navigation.openDrawer()
   }
   addItem = (value) => {
     if (this.state.text === '') {
@@ -162,9 +166,8 @@ class ChatScreen extends Component {
           <ImageBackground source={Images.backgroundHeaderBar}
                            style={styles.backgroundHeaderBar}>
             <View style={styles.elementHeader}>
-              <TouchableOpacity onPress={this._signOutAsync}>
-                <Image source={Images.goBack}
-                       style={styles.goBackIcon}/>
+              <TouchableOpacity onPress={this.openDrawer}  style={styles.goBackIcon}>
+                <Icon name="bars" size={30} color="#FFF"/>
               </TouchableOpacity>
               <View>
                 <Text style={styles.textName}>Johny</Text>

@@ -68,5 +68,14 @@ export default StyleSheet.create({
     backgroundColor: '#FF6969',
     position: 'absolute',
     bottom: -10
+  },
+  bottomValueContainer:{
+    flexDirection:'row',
+    justifyContent:"space-around",
+    alignItems:"center"
+  },
+  container2:{
+    flexDirection:'column',
+    justifyContent:'space-around'
   }
 })
