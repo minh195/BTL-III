@@ -23,12 +23,12 @@ export default StyleSheet.create({
     backgroundColor: '#e2e2e2',
     marginTop: 15,
   }, sideMenuProfileIcon: {
-    resizeMode: 'center',
     width: 150,
     height: 150,
     marginTop: 20,
     borderRadius: 150 / 2,
-  }, buttonLogOut: {
+  },
+  buttonLogOut: {
     marginTop: 10
   }
 })

@@ -7,7 +7,6 @@ import {
   TextInput,
   Keyboard,
   KeyboardAvoidingView,
-  Platform,
   AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -29,8 +28,9 @@ class SignInScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: '01255946496',
-      password: '123456',
+      email: 'Nya.Wiza48',
+      password: 'zgPsRtXHl6urFC7',
+      userData: []
     }
   }
 
@@ -74,23 +74,29 @@ class SignInScreen extends Component {
 
   componentWillReceiveProps (nextProps) {
     let response = nextProps.user.payload
-    console.log('-------', response)
     if (response != null) {
       this.saveUser(nextProps, response).then()
     }
   }
 
   saveUser = async (nextProps, response) => {
-    api.api.setHeader('Authorization', `Bearer ${nextProps.user.payload.data.token}`)
-    if (response.status_code === 200) {
-      AsyncStorage.setItem('userToken', nextProps.user.payload.data.token)
-      console.log('token user', nextProps.user.payload.data.token)
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Drawer' })]
-      })
-      nextProps.navigation.dispatch(resetAction)
-    }
+    let { email, password } = this.state
+    await response.data.map(async (item, index) => {
+      if (item.user_name === email && item.password === password) {
+        this.setState({
+          userData: item
+        })
+        api.api.setHeader('Authorization', `Bearer ${item.token}`)
+        await AsyncStorage.setItem('userToken', item.token)
+        await AsyncStorage.setItem('avatar', item.avatar)
+        await AsyncStorage.setItem('userId', item.id)
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'Drawer' })]
+        })
+        nextProps.navigation.dispatch(resetAction)
+      }
+    })
   }
   _handleSignUp = () => this.props.navigation.navigate('SignUpScreen')
 
@@ -158,7 +164,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchUser: (data) => {
-      console.log('fetchUser')
       dispatch(SignInTypes.signInRequest(data))
     }
   }

@@ -18,7 +18,7 @@ export default class LaunchScreen extends Component {
     this.props.navigation.navigate('SignInScreen')
   }
   handleSignUp = () => {
-    this.props.navigation.navigate('SignInScreen')
+    this.props.navigation.navigate('SignUpScreen')
   }
 
   async componentDidMount () {

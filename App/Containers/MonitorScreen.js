@@ -5,7 +5,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-  Button
+  Button, AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -22,15 +22,14 @@ class MonitorScreen extends Component {
     this.state = {
       titleBar: 1,
       isChoose1: true,
-      isChoose2: false
+      isChoose2: false,
+      itemChoose: null
     }
   }
-
-  openDrawer = () => {
-    this.props.navigation.openDrawer()
+  goBack =()=>{
+    this.props.navigation.navigate({ routeName: "Drawer" })
   }
   renderContent = () => {
-    console.log(this.state.titleBar)
     switch (this.state.titleBar) {
       case 1:
         return (
@@ -135,16 +134,16 @@ class MonitorScreen extends Component {
   }
 
   render () {
-    console.log(this.state.titleBar)
+    console.log("item choose ", JSON.stringify(this.props.navigation.getParam('idDevice', 'NO-ID')))
     return (
       <View style={styles.container}>
         <ImageBackground source={Images.backgroundHeaderBar}
                          style={styles.backgroundHeaderBar}>
           <TouchableOpacity
-            onPress={this.openDrawer}
             style={styles.menuIcon}
+            onPress={this.goBack}
           >
-            <Icon name="bars" size={30} color="#FFF"/>
+            <Icon name="arrow-left" size={30} color="#FFF"/>
           </TouchableOpacity>
           <Text style={styles.textName}>Heart Rate</Text>
           <TouchableOpacity style={styles.bellIcon}>

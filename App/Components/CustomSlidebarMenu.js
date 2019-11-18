@@ -8,9 +8,8 @@ import {
 } from 'react-native'
 
 import styles from './Styles/CustomSlidebarMenuStyle'
-import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { DrawerActions } from 'react-navigation'
+import { DrawerActions, NavigationActions, StackActions } from 'react-navigation'
 import PopUpLogOut from './PopUpLogOut'
 
 export default class CustomSidebarMenu extends Component {
@@ -18,8 +17,8 @@ export default class CustomSidebarMenu extends Component {
     super(props)
     this.items = [
       {
-        navOptionThumb: 'snapchat',
-        navOptionName: 'Monitor',
+        navOptionThumb: 'heartbeat',
+        navOptionName: 'Choose device',
         screenToNavigate: 'NavScreen1',
       },
       {
@@ -28,11 +27,14 @@ export default class CustomSidebarMenu extends Component {
         screenToNavigate: 'NavScreen2',
       },
       {
-        navOptionThumb: 'wechat',
+        navOptionThumb: 'map',
         navOptionName: 'Map Screen',
-        screenToNavigate: 'NavScreen3',
+        screenToNavigate: 'NavScreen2',
       },
     ]
+    this.state = {
+      avatar: null
+    }
   }
 
   _signOutAsync = async () => {
@@ -42,13 +44,32 @@ export default class CustomSidebarMenu extends Component {
 
   _HandleLogOut = async () => {
     await AsyncStorage.clear()
-    await this.props.navigation.navigate('SignInScreen')
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'SignInScreen' })]
+    })
+    this.props.navigation.dispatch(resetAction)
+  }
+  componentDidMount (){
+    this.getData().then()
   }
 
+  getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('avatar')
+      if(value !== null) {
+        this.setState({
+          avatar:value
+        })
+      }
+    } catch(e) {
+      // error reading value
+    }
+  }
   render () {
     return (
       <View style={styles.sideMenuContainer}>
-        <Image source={Images.avatarDrawer}
+        <Image source={{uri: this.state.avatar}}
                style={styles.sideMenuProfileIcon}/>
         <View style={styles.divider}/>
         <View style={{ width: '100%' }}>

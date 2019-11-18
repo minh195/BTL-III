@@ -49,7 +49,6 @@ class ChatScreen extends Component {
       }
       items.push(item) // add our new item
       let _lengthItems = this.state.items.length
-      console.log(this.state.items)
       this.state.items.splice(_lengthItems - 2, 1)
     }
   }

@@ -12,6 +12,7 @@ export const reducers = combineReducers({
   github: require('./GithubRedux').reducer,
   search: require('./SearchRedux').reducer,
   messageReducer: require('./GetMessageRedux').reducer,
+  deviceList: require('./GetDeviceListRedux').reducer
 })
 
 export default () => {

@@ -42,7 +42,6 @@ class FriendDetailScreen extends Component {
   _handleGoBack = () => this.props.navigation.dispatch(NavigationActions.back())
 
   render () {
-    console.log('Passing parameters to routes: ', this.state.friendDetail)
     const dataReceive = this.state.friendDetail
     return (
       <View style={styles.container}>

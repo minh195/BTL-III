@@ -4,12 +4,12 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  signInRequest: ['data'],
-  signInSuccess: ['payload'],
-  signInFailure: null
+  getDeviceListRequest: ['data'],
+  getDeviceListSuccess: ['payload'],
+  getDeviceListFailure: null
 })
 
-export const SignInTypes = Types
+export const GetDeviceListTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -23,7 +23,7 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Selectors ------------- */
 
-export const SignInSelectors = {
+export const GetDeviceListSelectors = {
   getData: state => state.data
 }
 
@@ -46,7 +46,7 @@ export const failure = state =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.SIGN_IN_REQUEST]: request,
-  [Types.SIGN_IN_SUCCESS]: success,
-  [Types.SIGN_IN_FAILURE]: failure
+  [Types.GET_DEVICE_LIST_REQUEST]: request,
+  [Types.GET_DEVICE_LIST_SUCCESS]: success,
+  [Types.GET_DEVICE_LIST_FAILURE]: failure
 })

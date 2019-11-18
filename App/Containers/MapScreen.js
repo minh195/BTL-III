@@ -41,7 +41,6 @@ class MapScreen extends Component {
   static getDerivedStateFromProps (nextProps) {
     const response = nextProps.friends.payload
     if (response != null) {
-      console.log('status_code = ', response.status_code)
       if (response.status_code === 200) {
         return {
           isLoading: false,
@@ -53,9 +52,7 @@ class MapScreen extends Component {
   }
 
   showFriends = (data) => {
-    console.log('value of makers', data)
     const reduceData = data.filter(arr => arr.id < 100)
-    console.log('reduceData', reduceData)
     return reduceData.map(marker => (
       <Marker
         key={marker.id}
@@ -122,11 +119,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onFetchFriend: () => {
-      console.log('Fetch friend')
       dispatch(GetFriendLocationTypes.getFriendLocationRequest())
     },
     onFetchClear: () => {
-      console.log('Clear redux')
       dispatch(GetFriendLocationTypes.getFriendLocationClear())
     }
   }

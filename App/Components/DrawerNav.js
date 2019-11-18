@@ -8,7 +8,7 @@ import Chat from '../Containers/ChatScreen'
 import MapScreen from '../Containers/MapScreen'
 import CustomSidebarMenu from './CustomSlidebarMenu'
 import MonitorScreen from '../Containers/MonitorScreen'
-
+import ChooseDeviceScreen from '../Containers/ChooseDeviceScreen'
 global.currentScreenIndex = 0
 
 class NavigationDrawerStructure extends Component {
@@ -31,7 +31,7 @@ class NavigationDrawerStructure extends Component {
 const DrawerNavigatorExample = createDrawerNavigator(
   {
     NavScreen1: {
-      screen: MonitorScreen,
+      screen: ChooseDeviceScreen,
     },
     NavScreen2: {
       screen: Chat,

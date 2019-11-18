@@ -1,4 +1,5 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation'
+import ChooseDeviceScreen from '../Containers/ChooseDeviceScreen'
 import MonitorScreen from '../Containers/MonitorScreen'
 import ChatScreen from '../Containers/ChatScreen'
 import SignInScreen from '../Containers/SignInScreen'
@@ -10,6 +11,7 @@ import DrawerNavigatorExample from '../Components/DrawerNav'
 import LaunchScreen from '../Containers/LaunchScreen'
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  ChooseDeviceScreen: { screen: ChooseDeviceScreen },
   LaunchScreen: { screen: LaunchScreen },
   MonitorScreen: { screen: MonitorScreen },
   ChatScreen: { screen: ChatScreen },
