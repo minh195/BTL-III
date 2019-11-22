@@ -28,8 +28,8 @@ class SignInScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: 'Nya.Wiza48',
-      password: 'zgPsRtXHl6urFC7',
+      email: 'Brando.Marquardt50',
+      password: 'f6Gsz6qU14Ek8yv',
       userData: []
     }
   }
@@ -81,7 +81,7 @@ class SignInScreen extends Component {
 
   saveUser = async (nextProps, response) => {
     let { email, password } = this.state
-    await response.data.map(async (item, index) => {
+    await response.map(async (item, index) => {
       if (item.user_name === email && item.password === password) {
         this.setState({
           userData: item

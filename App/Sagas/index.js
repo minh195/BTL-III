@@ -7,6 +7,7 @@ import { SignInTypes } from '../Redux/SignInRedux'
 import { GetFriendLocationTypes } from '../Redux/GetFriendLocationRedux'
 import { GetMessageTypes } from '../Redux/GetMessageRedux'
 import { GetDeviceListTypes } from '../Redux/GetDeviceListRedux'
+import { GetHistoryTypes } from '../Redux/GetHistoryRedux'
 /* ------------- Sagas ------------- */
 
 import { getSignIn } from './SignInSagas'
@@ -14,6 +15,7 @@ import { getGetFriendLocation } from './GetFriendLocationSagas'
 import { AsyncStorage } from 'react-native'
 import { getMessage } from './GetMessageSagas'
 import { getGetDeviceList } from './GetDeviceListSagas'
+import { getGetHistory } from './GetHistorySagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -32,6 +34,7 @@ export default function * root () {
     takeLatest(SignInTypes.SIGN_IN_REQUEST, getSignIn, api),
     takeLatest(GetFriendLocationTypes.GET_FRIEND_LOCATION_REQUEST, getGetFriendLocation, api),
     takeLatest(GetMessageTypes.GET_MESSAGE_REQUEST, getMessage, api2),
-    takeLatest(GetDeviceListTypes.GET_DEVICE_LIST_REQUEST, getGetDeviceList, api)
+    takeLatest(GetDeviceListTypes.GET_DEVICE_LIST_REQUEST, getGetDeviceList, api),
+    takeLatest(GetHistoryTypes.GET_HISTORY_REQUEST, getGetHistory, api)
   ])
 }

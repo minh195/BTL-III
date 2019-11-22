@@ -14,17 +14,19 @@ export default class RenderListDevice extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      id: null
+      id: null,
+      para: null
     }
   }
   componentDidMount () {
     this.setState({
-      id:this.props.item.id
+      id:this.props.item.id,
+      para: this.props.item.parameter
     })
   }
 
   handleNavigate = () => {
-    this.props.handleNavigate2(this.state.id)
+    this.props.handleNavigate2(this.state.id, this.state.para)
   }
 
   render () {

@@ -2,20 +2,20 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  Image,
   ImageBackground,
   TouchableOpacity,
-  Button, AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
+import GetHistoryTypes from '../Redux/GetHistoryRedux'
 // Styles
+
 import styles from './Styles/MonitorScreenStyle'
 import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
-
+import Monitor from '../Components/Monitor'
+import History from '../Components/History'
 class MonitorScreen extends Component {
   constructor (props) {
     super(props)
@@ -23,7 +23,24 @@ class MonitorScreen extends Component {
       titleBar: 1,
       isChoose1: true,
       isChoose2: false,
-      itemChoose: null
+      itemChoose: null,
+      historyData: []
+    }
+  }
+  componentDidMount (){
+    this.props.onFetchHistory()
+  }
+  saveHistory = async (nextProps, response) => {
+    await response.map((item, index) => {
+      if (item.device_id.toString() === this.props.navigation.getParam('idDevice', 'NO-ID')) {
+        this.state.historyData.push(item)
+      }
+    })
+  }
+  componentWillReceiveProps (nextProps) {
+    const response = nextProps.history.payload
+    if (response != null) {
+      this.saveHistory(nextProps, response).then()
     }
   }
   goBack =()=>{
@@ -33,76 +50,11 @@ class MonitorScreen extends Component {
     switch (this.state.titleBar) {
       case 1:
         return (
-          <View style={styles.content}>
-            <Image source={Images.heartBeat} style={styles.heartBeatGif}/>
-            <View style={styles.valueContent}>
-              <Text style={styles.valueText}>72</Text>
-              <Text style={styles.unitText}>beats per minute</Text>
-            </View>
-            <Image source={Images.heartBeatWave} style={styles.heartBeatWaveGif}/>
-          </View>
+          <Monitor param={this.props.navigation.getParam("paraRecent",'No Data')}/>
         )
       case 2:
-        const data = [50, 60, 40, 95, 100, 120, 85, 91, 50, 53, 53, 40, 50, 40, 80]
-        const axesSvg = { fontSize: 10, fill: 'grey' }
-        const verticalContentInset = { top: 10, bottom: 10 }
-        const xAxisHeight = 30
         return (
-          <View style={styles.container2}>
-            <View>
-              <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
-                <YAxis
-                  data={data}
-                  style={{ marginBottom: xAxisHeight }}
-                  contentInset={verticalContentInset}
-                  svg={axesSvg}
-                />
-                <View style={{ flex: 1, marginLeft: 10 }}>
-                  <LineChart
-                    style={{ flex: 1 }}
-                    data={data}
-                    contentInset={verticalContentInset}
-                    svg={{ stroke: 'rgb(134, 65, 244)' }}
-                  >
-                    <Grid/>
-                  </LineChart>
-                  <XAxis
-                    style={{ marginHorizontal: -10, height: xAxisHeight }}
-                    data={data}
-                    formatLabel={(value, index) => index}
-                    contentInset={{ left: 10, right: 10 }}
-                    svg={axesSvg}
-                  />
-                </View>
-              </View>
-              <View style={styles.bottomValueContainer}>
-                <View>
-                  <Text>
-                    Min
-                  </Text>
-                  <Text>
-                    50
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    Max
-                  </Text>
-                  <Text>
-                    120
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    Avg
-                  </Text>
-                  <Text>
-                    70
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <History/>
         )
       default:
         return null
@@ -134,7 +86,7 @@ class MonitorScreen extends Component {
   }
 
   render () {
-    console.log("item choose ", JSON.stringify(this.props.navigation.getParam('idDevice', 'NO-ID')))
+    console.log("item response:", this.state.historyData)
     return (
       <View style={styles.container}>
         <ImageBackground source={Images.backgroundHeaderBar}
@@ -175,11 +127,17 @@ class MonitorScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    history: state.history
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    onFetchHistory: () =>{
+      dispatch(GetHistoryTypes.getHistoryRequest())
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonitorScreen)

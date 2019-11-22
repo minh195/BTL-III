@@ -34,11 +34,13 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
     timeout: 10000
   })
   const getUser = (data) => api.get('users')
-  const getDevice = () => api.get('products/')
+  const getDevice = () => api.get('products')
+  const getHistory = () => api.get('historys')
   return {
-    getUser,
     api,
-    getDevice
+    getUser,
+    getDevice,
+    getHistory
   }
 }
 

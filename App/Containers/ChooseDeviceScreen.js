@@ -29,10 +29,13 @@ class ChooseDeviceScreen extends Component {
     }
   }
 
-  handleNavigate2 = (idDevice) => {
+  handleNavigate2 = (idDevice, para) => {
+
     this.props.navigation.navigate(
-      'MonitorScreen',
-      { idDevice: idDevice }
+      'MonitorScreen', {
+        idDevice: idDevice,
+        paraRecent: para
+      }
     )
   }
   openDrawer = () => {
@@ -62,7 +65,7 @@ class ChooseDeviceScreen extends Component {
     }
   }
   saveDevice = async (nextProps, response) => {
-    await response.data.map((item, index) => {
+    await response.map((item, index) => {
       if (item.user_id === this.state.userId) {
         this.state.deviceData.push(item)
       }

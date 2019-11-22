@@ -1,24 +1,20 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import styles from './Styles/MonitorStyle'
+import { Images } from '../Themes'
 
 export default class Monitor extends Component {
-  // // Prop type warnings
-  // static propTypes = {
-  //   someProperty: PropTypes.object,
-  //   someSetting: PropTypes.bool.isRequired,
-  // }
-  //
-  // // Defaults for props
-  // static defaultProps = {
-  //   someSetting: false
-  // }
 
   render () {
     return (
-      <View style={styles.container}>
-        <Text>Monitor Component</Text>
+      <View style={styles.content}>
+        <Image source={Images.heartBeat} style={styles.heartBeatGif}/>
+        <View style={styles.valueContent}>
+          <Text style={styles.valueText}>{this.props.param}</Text>
+          <Text style={styles.unitText}>beats per minute</Text>
+        </View>
+        <Image source={Images.heartBeatWave} style={styles.heartBeatWaveGif}/>
       </View>
     )
   }

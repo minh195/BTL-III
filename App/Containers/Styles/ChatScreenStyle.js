@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
 
 export default StyleSheet.create({
-  ...ApplicationStyles.screen,
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -14,9 +13,11 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: 10
-  }, goBackIcon: {
+  },
+  goBackIcon: {
     width: 20,
-    height: 20
+    height: 20,
+    marginBottom: 8
   }, dateMassage: {
     textAlign: 'center',
     marginTop: 10
