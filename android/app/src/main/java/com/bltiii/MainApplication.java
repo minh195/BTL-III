@@ -13,8 +13,11 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
+
 import java.util.Arrays;
 import java.util.List;
+
+import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -23,16 +26,18 @@ public class MainApplication extends Application implements ReactApplication {
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
+
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new SvgPackage(),
-            new RNDeviceInfo(),
-            new RNI18nPackage(),
-            new VectorIconsPackage(),
-            new RNGestureHandlerPackage(),
-        new MapsPackage()
+        new MainReactPackage(),
+        new SvgPackage(),
+        new RNDeviceInfo(),
+        new RNI18nPackage(),
+        new VectorIconsPackage(),
+        new RNGestureHandlerPackage(),
+        new MapsPackage(),
+        new RNDateTimePickerPackage()
       );
     }
 

@@ -29,7 +29,7 @@ export default class CustomSidebarMenu extends Component {
       {
         navOptionThumb: 'map',
         navOptionName: 'Map Screen',
-        screenToNavigate: 'NavScreen2',
+        screenToNavigate: 'NavScreen3',
       },
     ]
     this.state = {

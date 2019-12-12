@@ -7,7 +7,7 @@ import {
   TextInput,
   Keyboard,
   KeyboardAvoidingView,
-  AsyncStorage
+  AsyncStorage, ActivityIndicator, ScrollView
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -28,8 +28,8 @@ class SignInScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: 'Brando.Marquardt50',
-      password: 'f6Gsz6qU14Ek8yv',
+      email: 'Raegan_Conn',
+      password: 'Dmcx5K5PEb2JT5P',
       userData: []
     }
   }
@@ -89,7 +89,8 @@ class SignInScreen extends Component {
         api.api.setHeader('Authorization', `Bearer ${item.token}`)
         await AsyncStorage.setItem('userToken', item.token)
         await AsyncStorage.setItem('avatar', item.avatar)
-        await AsyncStorage.setItem('userId', item.id)
+        await AsyncStorage.setItem('email', item.email)
+        await AsyncStorage.setItem('userCode', item.user_code.toString())
         const resetAction = StackActions.reset({
           index: 0,
           actions: [NavigationActions.navigate({ routeName: 'Drawer' })]
@@ -101,7 +102,6 @@ class SignInScreen extends Component {
   _handleSignUp = () => this.props.navigation.navigate('SignUpScreen')
 
   render () {
-    let { email, password } = this.state
     return (
       <KeyboardAvoidingView style={styles.keyBoardAvoidingView} behavior="height">
         <View style={styles.container}>
@@ -143,7 +143,8 @@ class SignInScreen extends Component {
               </TouchableOpacity>
             </View>
             <TouchableOpacity onPress={this._handleAddData} style={styles.loginButton}>
-              <Text style={styles.loginText}>Login</Text>
+              {!this.props.user.fetching && <Text style={styles.loginText}>Login</Text>}
+              {this.props.user.fetching && <ActivityIndicator size="small" color="#0000ff"/>}
             </TouchableOpacity>
             <TouchableOpacity onPress={this._handleSignUp} style={styles.footerButton}>
               <Text style={styles.signUpButton}>Sign Up</Text>

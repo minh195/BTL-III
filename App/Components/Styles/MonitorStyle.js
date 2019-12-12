@@ -31,7 +31,8 @@ export default StyleSheet.create({
   content: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    height: deviceHeight * 0.8
   },
   valueContent: {
     alignItems: 'center'

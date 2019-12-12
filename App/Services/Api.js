@@ -1,30 +1,5 @@
 import apisauce from 'apisauce'
-import { head } from 'ramda'
 
-//get friend
-// const create = (baseURL = 'https://api.bonbon24h.com.vn') => {
-//   const api = apisauce.create({
-//     baseURL,
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     timeout: 10000
-//   })
-//   const getUser = (data) => api.post('/api/v2/passengers/login', {
-//     phone_number: data.emailData.email,
-//     password: data.passwordData.password,
-//     device_token: '1',
-//     device_os: '1',
-//     checkVersion: '1'
-//   })
-//   const getFriend = () => api.get('/api/v2/passengers/drivers')
-//   return {
-//     getUser,
-//     getFriend,
-//     api
-//   }
-// }
-// login
 const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
   const api = apisauce.create({
     baseURL,
@@ -34,13 +9,15 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
     timeout: 10000
   })
   const getUser = (data) => api.get('users')
-  const getDevice = () => api.get('products')
-  const getHistory = () => api.get('historys')
+  const getDevice = (data) => api.get(`products?search=${data}`)
+  const getLocation = (data) => api.get(`products`)
+  const getHistory = () => api.get('historys?sortBy=date_time&order=asc')
   return {
     api,
     getUser,
     getDevice,
-    getHistory
+    getHistory,
+    getLocation
   }
 }
 

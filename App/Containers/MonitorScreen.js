@@ -4,6 +4,8 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
+  ScrollView,
+  RefreshControl,
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -15,7 +17,7 @@ import styles from './Styles/MonitorScreenStyle'
 import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Monitor from '../Components/Monitor'
-import History from '../Components/History'
+import HistoryScreen from './HistoryScreen'
 class MonitorScreen extends Component {
   constructor (props) {
     super(props)
@@ -54,7 +56,7 @@ class MonitorScreen extends Component {
         )
       case 2:
         return (
-          <History/>
+          <HistoryScreen historyData={this.state.historyData}/>
         )
       default:
         return null
@@ -84,11 +86,13 @@ class MonitorScreen extends Component {
       })
     }
   }
+  _onRefresh = () => {
 
+  }
   render () {
     console.log("item response:", this.state.historyData)
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <ImageBackground source={Images.backgroundHeaderBar}
                          style={styles.backgroundHeaderBar}>
           <TouchableOpacity
@@ -121,7 +125,7 @@ class MonitorScreen extends Component {
         <View>
         </View>
         {this.renderContent()}
-      </View>
+      </ScrollView>
     )
   }
 }

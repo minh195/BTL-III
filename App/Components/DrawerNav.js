@@ -7,7 +7,6 @@ import { createDrawerNavigator, DrawerActions } from 'react-navigation'
 import Chat from '../Containers/ChatScreen'
 import MapScreen from '../Containers/MapScreen'
 import CustomSidebarMenu from './CustomSlidebarMenu'
-import MonitorScreen from '../Containers/MonitorScreen'
 import ChooseDeviceScreen from '../Containers/ChooseDeviceScreen'
 global.currentScreenIndex = 0
 

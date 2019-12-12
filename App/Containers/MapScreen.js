@@ -10,13 +10,13 @@ import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
 //import components
-import GetFriendLocationTypes from '../Redux/GetFriendLocationRedux'
 import PopUpFriend from '../Components/PopUpFriend'
 import Loading from '../Components/Loading'
 
 // Styles
 import styles from './Styles/MapScreenStyle'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import GetFriendLocationTypes from '../Redux/GetFriendLocationRedux'
 
 class MapScreen extends Component {
   constructor (props) {
@@ -40,34 +40,31 @@ class MapScreen extends Component {
 
   static getDerivedStateFromProps (nextProps) {
     const response = nextProps.friends.payload
+    console.log('response: ', response)
     if (response != null) {
-      if (response.status_code === 200) {
-        return {
-          isLoading: false,
-          data: response.data
-        }
+      return {
+        isLoading: false,
+        data: response
       }
-    }
-    return null
+    } else return null
   }
 
   showFriends = (data) => {
-    const reduceData = data.filter(arr => arr.id < 100)
-    return reduceData.map(marker => (
+    return data.map(marker => (
       <Marker
         key={marker.id}
         draggable
         coordinate={{
-          latitude: marker.lat,
-          longitude: marker.lng,
+          latitude: parseFloat(marker.lat),
+          longitude: parseFloat(marker.lng),
         }}
-        title={marker.fullname}
+        title={marker.name}
         onPress={() => {this.refs.addModal.showModal(marker)}
         }>
         <View style={styles.maker}>
-          <Image source={{ uri: marker.url_avatar }}
+          <Image source={{ uri: marker.image }}
                  style={styles.markerAvatar}/>
-          <Text style={styles.markerName}>{marker.fullname}</Text>
+          <Text style={styles.markerName}>{marker.name}</Text>
         </View>
       </Marker>
     ))
@@ -79,10 +76,8 @@ class MapScreen extends Component {
       { friendDetail: friendData }
     )
   }
-  _signOutAsync = async () => {
-    await this.props.onFetchClear()
-    await AsyncStorage.clear()
-    await this.props.navigation.navigate('SignInScreen')
+  _signOutAsync = () => {
+    this.props.navigation.goBack()
   }
 
   render () {
@@ -103,7 +98,7 @@ class MapScreen extends Component {
         </MapView>
         <View style={styles.signOutButton}>
           <TouchableOpacity onPress={this._signOutAsync}>
-            <Icon name="sign-out" size={25} color="#82C91E"/>
+            <Icon name="arrow-left" size={25} color="#82C91E"/>
           </TouchableOpacity>
         </View>
       </View>
@@ -121,9 +116,9 @@ const mapDispatchToProps = (dispatch) => {
     onFetchFriend: () => {
       dispatch(GetFriendLocationTypes.getFriendLocationRequest())
     },
-    onFetchClear: () => {
-      dispatch(GetFriendLocationTypes.getFriendLocationClear())
-    }
+    // onFetchClear: () => {
+    //   dispatch(GetFriendLocationTypes.getFriendLocationClear())
+    // }
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MapScreen)

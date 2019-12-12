@@ -3,7 +3,7 @@ import GetDeviceListActions from '../Redux/GetDeviceListRedux'
 
 export function * getGetDeviceList (api, action) {
   const { data } = action
-  const response = yield call(api.getDevice)
+  const response = yield call(api.getDevice, data)
   console.log("Get device list: ", response)
   // success?
   if (response.ok) {

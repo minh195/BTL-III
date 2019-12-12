@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import {
   Text,
-  View,
   FlatList,
   TouchableOpacity,
   ImageBackground,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView,
+  RefreshControl,
+  ActivityIndicator,
+  View
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -25,12 +28,12 @@ class ChooseDeviceScreen extends Component {
       deviceName: ['HeartBeat'],
       data: [],
       userId: null,
-      deviceData: []
+      deviceData: [],
+      refreshing: false,
     }
   }
 
   handleNavigate2 = (idDevice, para) => {
-
     this.props.navigation.navigate(
       'MonitorScreen', {
         idDevice: idDevice,
@@ -47,41 +50,47 @@ class ChooseDeviceScreen extends Component {
     )
   }
 
-  componentDidMount () {
-    this.getData().then()
-    this.props.onFetchDevice()
-  }
-
-  getData = async () => {
+  async componentDidMount () {
     try {
-      const value = await AsyncStorage.getItem('userId')
+      const value = await AsyncStorage.getItem('userCode')
       if (value !== null) {
-        this.setState({
-          userId: value
-        })
+        this.setState({userId:value})
+        this.props.onFetchDevice(value)
       }
     } catch (e) {
       // error reading value
     }
+
   }
+
   saveDevice = async (nextProps, response) => {
-    await response.map((item, index) => {
-      if (item.user_id === this.state.userId) {
-        this.state.deviceData.push(item)
-      }
-    })
+    this.setState({deviceData:response})
   }
 
   componentWillReceiveProps (nextProps) {
     const response = nextProps.deviceList.payload
     if (response != null) {
-      this.saveDevice(nextProps, response).then()
+      this.saveDevice(nextProps, response).then(
+        this.setState({ refreshing: false })
+      )
     }
+  }
+
+  _onRefresh = () => {
+    this.setState({ refreshing: true })
+    this.props.onFetchDevice(this.state.userId)
   }
 
   render () {
     return (
-      <View>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
+      >
         <ImageBackground source={Images.backgroundHeaderBar}
                          style={styles.backgroundHeaderBar}>
           <TouchableOpacity
@@ -101,7 +110,8 @@ class ChooseDeviceScreen extends Component {
           data={this.state.deviceData}
           renderItem={this.renderItem}
         />}
-      </View>
+        {this.props.deviceList.fetching && <ActivityIndicator size="large" color="#0000ff"/>}
+      </ScrollView>
     )
   }
 }
@@ -114,8 +124,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchDevice: () => {
-      dispatch(GetDeviceListTypes.getDeviceListRequest())
+    onFetchDevice: (data) => {
+      dispatch(GetDeviceListTypes.getDeviceListRequest(data))
     }
   }
 }
