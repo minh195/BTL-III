@@ -25,24 +25,7 @@ class MonitorScreen extends Component {
       titleBar: 1,
       isChoose1: true,
       isChoose2: false,
-      itemChoose: null,
-      historyData: []
-    }
-  }
-  componentDidMount (){
-    this.props.onFetchHistory()
-  }
-  saveHistory = async (nextProps, response) => {
-    await response.map((item, index) => {
-      if (item.device_id.toString() === this.props.navigation.getParam('idDevice', 'NO-ID')) {
-        this.state.historyData.push(item)
-      }
-    })
-  }
-  componentWillReceiveProps (nextProps) {
-    const response = nextProps.history.payload
-    if (response != null) {
-      this.saveHistory(nextProps, response).then()
+      itemChoose: null
     }
   }
   goBack =()=>{
@@ -56,7 +39,7 @@ class MonitorScreen extends Component {
         )
       case 2:
         return (
-          <HistoryScreen historyData={this.state.historyData}/>
+          <HistoryScreen idDevice={this.props.navigation.getParam('idDevice', 'NO-ID')}/>
         )
       default:
         return null
@@ -90,7 +73,6 @@ class MonitorScreen extends Component {
 
   }
   render () {
-    console.log("item response:", this.state.historyData)
     return (
       <ScrollView style={styles.container}>
         <ImageBackground source={Images.backgroundHeaderBar}
@@ -132,15 +114,11 @@ class MonitorScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    history: state.history
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchHistory: () =>{
-      dispatch(GetHistoryTypes.getHistoryRequest())
-    }
   }
 }
 

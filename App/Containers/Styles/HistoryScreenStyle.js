@@ -77,5 +77,13 @@ export default StyleSheet.create({
   container2:{
     flexDirection:'column',
     justifyContent:'space-around'
+  },
+  iconView:{
+    alignItems:"center",
+    marginTop: 10
+  },
+  iconPickDate:{
+    position: "absolute",
+    right: 20
   }
 })

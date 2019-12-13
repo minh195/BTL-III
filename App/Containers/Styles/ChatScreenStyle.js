@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles } from '../../Themes/'
 
 export default StyleSheet.create({
   container: {
@@ -12,7 +11,8 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 10
+    marginLeft: 10,
+    justifyContent: "center"
   },
   goBackIcon: {
     width: 20,
@@ -29,7 +29,7 @@ export default StyleSheet.create({
     color: 'white',
     fontStyle: 'italic',
     fontSize: 20,
-    padding: 15,
+    padding: 15
   }, content: {
     flex: 1,
     flexDirection: 'column',

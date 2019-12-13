@@ -1,99 +1,97 @@
 import React, { Component } from 'react'
-import { Text, Platform, View, Button, Dimensions } from 'react-native'
+import {
+  Text,
+  Platform,
+  View,
+  Dimensions,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native'
 import { connect } from 'react-redux'
-
-// Styles
-import styles from './Styles/HistoryScreenStyle'
 import { Path } from 'react-native-svg'
-import { AreaChart, Grid, XAxis, YAxis } from 'react-native-svg-charts'
+import { AreaChart, Grid, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import DateTimePicker from '@react-native-community/datetimepicker'
-const { height, width } = Dimensions.get('window')
+import GetHistoryTypes from '../Redux/GetHistoryRedux'
+import Icon from 'react-native-vector-icons/FontAwesome'
+// Styles
+import styles from './Styles/HistoryScreenStyle'
+import NoData from '../Components/NoData'
+import Loading from '../Components/Loading'
+const { height } = Dimensions.get('window')
+
 class HistoryScreen extends Component {
   state = {
     date: new Date(),
     mode: 'date',
     show: false,
+    historyData: [],
+    dataLine: [],
+    dataHour: [],
+    min: null,
+    max: null,
+    avg: null
+  }
+
+  componentDidMount () {
+    this.props.onFetchHistory()
+  }
+
+  getDataByDate = async () => {
+    await this.state.historyData.map((item, index) => {
+      let dateConfig = JSON.stringify(item.date_time).split('T')[0].replace('"', '')
+      if (dateConfig === JSON.stringify(this.state.date).split('T')[0].replace('"', '')) {
+        this.setState({
+          dataLine: [...this.state.dataLine, item.para],
+        })
+      }
+    })
+  }
+  saveHistory = async (nextProps, response) => {
+    await response.map((item, index) => {
+      if (item.device_id.toString() === this.props.idDevice) {
+        this.state.historyData.push(item)
+      }
+    })
+    this.getDataByDate()
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const response = nextProps.history.payload
+    if (response != null) {
+      this.saveHistory(nextProps, response).then()
+    }
   }
 
   setDate = (event, date) => {
-    date = date || this.state.date;
+    date = date || this.state.date
 
     this.setState({
       show: Platform.OS === 'ios' ? true : false,
       date,
-    });
+      dataLine: []
+    })
+    this.getDataByDate().then(r => {})
   }
 
   show = mode => {
     this.setState({
       show: true,
       mode,
-    });
+    })
   }
 
   datepicker = () => {
-    this.show('date');
+    this.show('date')
   }
 
   render () {
-    console.log('data history passed: ', this.state.date)
-    const data = [50, 82, 96, 68, 63, 86, 87, 98, 102]
-    const dataDate = [
-      {
-        'id': '1',
-        'date_time': '2019-02-10T20:46:25.742Z',
-        'para': 49156,
-        'device_id': '4'
-      },
-      {
-        'id': '2',
-        'date_time': '2019-11-03T03:49:59.949Z',
-        'para': 44725,
-        'device_id': '4'
-      },
-      {
-        'id': '3',
-        'date_time': '2019-05-11T03:50:50.875Z',
-        'para': 45336,
-        'device_id': '4'
-      },
-      {
-        'id': '4',
-        'date_time': '2019-09-23T01:43:15.042Z',
-        'para': 26684,
-        'device_id': '4'
-      },
-      {
-        'id': '5',
-        'date_time': '2018-12-30T09:14:58.623Z',
-        'para': 20051,
-        'device_id': 74
-      },
-      {
-        'id': '6',
-        'date_time': '2019-01-24T07:16:22.429Z',
-        'para': 65527,
-        'device_id': 17
-      },
-      {
-        'id': '7',
-        'date_time': '2019-07-27T17:44:17.778Z',
-        'para': 92385,
-        'device_id': 7
-      },
-      {
-        'id': '8',
-        'date_time': '2019-09-24T01:55:49.121Z',
-        'para': 82598,
-        'device_id': 14
-      },
-    ]
+    const data = this.state.dataLine
     const { show, date, mode } = this.state
-    //const dataDate = ['monday', 'Tuesday','monday', 'Tuesday', 'monday', 'Tuesday', 'monday', 'Tuesday', 'Tuesday' ]
     const axesSvg = { fontSize: 10, fill: 'grey' }
     const verticalContentInset = { top: 10, bottom: 10 }
     const xAxisHeight = 30
+    const arrAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length
     const Line = ({ line }) => (
       <Path
         key={'line'}
@@ -102,10 +100,36 @@ class HistoryScreen extends Component {
         fill={'none'}
       />
     )
-
+    const renderItemValue = (txt, value) => {
+      return (
+        <View style={{ width: 80 }}>
+          <Text style={{ textAlign: 'center' }}>
+            {txt}
+          </Text>
+          <Text style={{ textAlign: 'center' }}>
+            {value}
+          </Text>
+        </View>
+      )
+    }
+    const renderNoData = () => {
+      if (data.length === 0 && !this.props.history.fetching) {
+        return (
+          <NoData/>
+        )
+      }
+    }
     return (
       <View style={styles.container2}>
-        <View>
+        <View style={styles.iconView}>
+          <Text
+            style={{ textAlign: 'center' }}>{(this.state.date).toString().split(' ')[0]} {(this.state.date).toString().split(' ')[1]} {(this.state.date).toString().split(' ')[2]}, {(this.state.date).toString().split(' ')[3]}</Text>
+          <TouchableOpacity onPress={this.datepicker} style={styles.iconPickDate}>
+            <Icon name="calendar" size={24} color="gray"/>
+          </TouchableOpacity>
+        </View>
+        {renderNoData()}
+        {data.length !== 0 && <View>
           <View style={{ height: height / 2.5, padding: 20, flexDirection: 'row' }}>
             <YAxis
               data={data}
@@ -124,53 +148,22 @@ class HistoryScreen extends Component {
                 <Grid/>
                 <Line/>
               </AreaChart>
-              <XAxis
-                style={{ marginHorizontal: -10, height: xAxisHeight }}
-                data={dataDate}
-                xAccessor={({ item }) => item.para}
-                formatLabel={(value) => "Thứ" + value}
-                contentInset={{ left: 10, right: 10 }}
-                svg={axesSvg}
-              />
             </View>
           </View>
-          <View style={styles.bottomValueContainer}>
-            <View>
-              <Text>
-                Min
-              </Text>
-              <Text>
-                50
-              </Text>
-            </View>
-            <View>
-              <Text>
-                Max
-              </Text>
-              <Text>
-                120
-              </Text>
-            </View>
-            <View>
-              <Text>
-                Avg
-              </Text>
-              <Text>
-                70
-              </Text>
-            </View>
-          </View>
-          <Text> {(this.state.date).toString()}</Text>
-          <View>
-            <Button onPress={this.datepicker} title="Show date picker!" />
-          </View>
-          { show && <DateTimePicker value={date}
-                                    mode={mode}
-                                    is24Hour={true}
-                                    display="default"
-                                    onChange={this.setDate} />
-          }
-        </View>
+
+        </View>}
+        {this.state.dataLine.length !== 0 && <View style={styles.bottomValueContainer}>
+          {renderItemValue('Min', Math.min.apply(Math, data))}
+          {renderItemValue('Max', Math.max.apply(Math, data))}
+          {renderItemValue('Avg', parseInt(arrAvg(data)))}
+        </View>}
+        {show && <DateTimePicker value={date}
+                                 mode={mode}
+                                 is24Hour={true}
+                                 display="default"
+                                 onChange={this.setDate}/>
+        }
+        {this.props.history.fetching && <Loading/>}
       </View>
     )
   }
@@ -178,11 +171,15 @@ class HistoryScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    history: state.history
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onFetchHistory: () => {
+      dispatch(GetHistoryTypes.getHistoryRequest())
+    }
   }
 }
 

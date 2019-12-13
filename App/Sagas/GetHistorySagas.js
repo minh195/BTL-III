@@ -6,7 +6,7 @@ import GetHistoryActions from '../Redux/GetHistoryRedux'
 export function * getGetHistory (api, action) {
   const { data } = action
   const response = yield call(api.getHistory)
-  console.log('response', response)
+  console.log('response history:', response)
   // success?
   if (response.ok) {
     yield put(GetHistoryActions.getHistorySuccess(response.data))

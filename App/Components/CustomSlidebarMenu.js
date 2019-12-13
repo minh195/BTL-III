@@ -33,11 +33,13 @@ export default class CustomSidebarMenu extends Component {
       },
     ]
     this.state = {
-      avatar: null
+      avatar: null,
+      email: ''
     }
   }
 
   _signOutAsync = async () => {
+    global.currentScreenIndex = 0
     await this.props.navigation.dispatch(DrawerActions.closeDrawer())
     await this.refs.addModal1.showModal()
   }
@@ -50,28 +52,45 @@ export default class CustomSidebarMenu extends Component {
     })
     this.props.navigation.dispatch(resetAction)
   }
-  componentDidMount (){
+
+  componentDidMount () {
     this.getData().then()
   }
 
   getData = async () => {
     try {
       const value = await AsyncStorage.getItem('avatar')
-      if(value !== null) {
+      const value2 = await AsyncStorage.getItem('email')
+      if (value !== null) {
         this.setState({
-          avatar:value
+          avatar: value,
+          email: value2
         })
       }
-    } catch(e) {
+    } catch (e) {
       // error reading value
     }
   }
+
   render () {
     return (
       <View style={styles.sideMenuContainer}>
-        <Image source={{uri: this.state.avatar}}
+        <Image source={{ uri: this.state.avatar }}
                style={styles.sideMenuProfileIcon}/>
-        <View style={styles.divider}/>
+        <View style={{
+          borderBottomWidth: 1,
+          borderBottomColor: '#e2e2e2',
+          paddingBottom: 10,
+          width: '100%',
+          marginBottom: 10
+        }}>
+          <Text style={{
+            marginTop: 5,
+            paddingHorizontal: 20
+          }}>
+            {this.state.email}
+          </Text>
+        </View>
         <View style={{ width: '100%' }}>
           {this.items.map((item, key) => (
             <View style={[styles.itemContainer,

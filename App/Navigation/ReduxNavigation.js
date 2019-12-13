@@ -16,11 +16,14 @@ const ReduxAppNavigator = createReduxContainer(AppNavigation, 'root')
 
 class ReduxNavigation extends React.Component {
   componentDidMount () {
+
     if (Platform.OS === 'ios') return
     BackHandler.addEventListener('hardwareBackPress', () => {
       const { dispatch, nav } = this.props
       // change to whatever is your first screen, otherwise unpredictable results may occur
-      if (nav.routes.length > 0 && (nav.routes[0].routeName === 'MapScreen')) {
+      console.log("navigation: ", nav.routes.length, nav.routes[0].routeName)
+      if (nav.routes.length > 0 && (nav.routes[0].routeName === 'Drawer'||nav.routes[0].routeName === 'LaunchScreen')) {
+        console.log("action")
         return false
       }
       // if (shouldCloseApp(nav)) return false

@@ -4,7 +4,6 @@ import {
   View,
   TouchableOpacity,
   Image,
-  AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
@@ -40,7 +39,7 @@ class MapScreen extends Component {
 
   static getDerivedStateFromProps (nextProps) {
     const response = nextProps.friends.payload
-    console.log('response: ', response)
+    console.log('response maps: ', response)
     if (response != null) {
       return {
         isLoading: false,
@@ -77,6 +76,7 @@ class MapScreen extends Component {
     )
   }
   _signOutAsync = () => {
+    global.currentScreenIndex = 0
     this.props.navigation.goBack()
   }
 

@@ -5,8 +5,7 @@ export default class Loading extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <ActivityIndicator/>
-        <StatusBar barStyle="default"/>
+        <ActivityIndicator size="large" color="#0000ff"/>
       </View>
     )
   }
