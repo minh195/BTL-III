@@ -35,7 +35,9 @@ class MonitorScreen extends Component {
     switch (this.state.titleBar) {
       case 1:
         return (
-          <Monitor param={this.props.navigation.getParam("paraRecent",'No Data')}/>
+          <Monitor param={this.props.navigation.getParam("paraRecent",'No Data')}
+                   dateTimeParam={this.props.navigation.getParam("dateTime",'No Data')}
+          />
         )
       case 2:
         return (
@@ -74,7 +76,7 @@ class MonitorScreen extends Component {
   }
   render () {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <ImageBackground source={Images.backgroundHeaderBar}
                          style={styles.backgroundHeaderBar}>
           <TouchableOpacity
@@ -83,7 +85,7 @@ class MonitorScreen extends Component {
           >
             <Icon name="arrow-left" size={30} color="#FFF"/>
           </TouchableOpacity>
-          <Text style={styles.textName}>Heart Rate</Text>
+          <Text style={styles.textName}>Nhịp tim</Text>
           <TouchableOpacity style={styles.bellIcon}>
             <Icon name="bell" size={25} color="#FFF"/>
           </TouchableOpacity>
@@ -93,21 +95,21 @@ class MonitorScreen extends Component {
             onPress={this.handleNavigate1}
             style={styles.navigateButton}
           >
-            <Text style={styles.navigateText}>Measure</Text>
+            <Text style={styles.navigateText}>Thông số</Text>
             {this.state.isChoose1 && <View style={styles.chooseView}/>}
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.handleNavigate2}
             style={styles.navigateButton}
           >
-            <Text style={styles.navigateText}>Statistics</Text>
+            <Text style={styles.navigateText}>Lịch sử</Text>
             {this.state.isChoose2 && <View style={styles.chooseView}/>}
           </TouchableOpacity>
         </View>
         <View>
         </View>
         {this.renderContent()}
-      </ScrollView>
+      </View>
     )
   }
 }

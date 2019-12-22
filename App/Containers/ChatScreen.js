@@ -4,8 +4,7 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  AsyncStorage,
-  ActivityIndicator
+  AsyncStorage, ActivityIndicator,
 } from 'react-native'
 import styles from './Styles/ChatScreenStyle'
 import { Images } from '../Themes'
@@ -14,11 +13,10 @@ import { connect } from 'react-redux'
 import Fire from '../Components/Fire'
 import { GiftedChat } from 'react-native-gifted-chat'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Loading from '../Components/Loading'
 
 class ChatScreen extends Component {
-  openDrawer = () => {
-    this.props.navigation.openDrawer()
+  goBack = () => {
+    this.props.navigation.goBack()
   }
   static navigationOptions = ({ navigation }) => ({
     title: (navigation.state.params || {}).name || 'Chat!',
@@ -50,47 +48,57 @@ class ChatScreen extends Component {
       // error reading value
     }
   }
+  configChat = (mes) => {
+    console.log('message from database: ', mes)
+  }
 
   componentDidMount () {
-    Fire.shared.on(message =>
+    console.log("item name: ", this.props.navigation.getParam("name",'No Data'))
+    console.log("item email: ", this.props.navigation.getParam("email",'No Data'))
+    Fire.shared.on(message => {
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, message),
         loading: false
       }))
-    )
+      this.configChat(message)
+    })
     this.getData().then()
+
   }
 
   componentWillUnmount () {
     Fire.shared.off()
   }
 
+  onPressAvatar = () => {
+    this.props.navigation.navigate('FriendDetailScreen')
+  }
+
   render () {
-    console.log('message from database: ', this.state.messages)
     console.disableYellowBox = true
     return (
       <View style={styles.container}>
         <PopUpMoDal ref={'addModal'}/>
-        <View style={styles.header}>
           <ImageBackground source={Images.backgroundHeaderBar}
                            style={styles.backgroundHeaderBar}>
             <View style={styles.elementHeader}>
-              <TouchableOpacity onPress={this.openDrawer} style={styles.goBackIcon}>
-                <Icon name="bars" size={30} color="#FFF"/>
+              <TouchableOpacity onPress={this.goBack} style={styles.goBackIcon}>
+                <Icon name="arrow-left" size={30} color="#FFF"/>
               </TouchableOpacity>
               <View style={{ alignSelf: 'center' }}>
-                <Text style={styles.textName}>Doctor</Text>
+                <Text style={styles.textName}>{this.props.navigation.getParam("name",'No Data')}</Text>
               </View>
             </View>
           </ImageBackground>
-        </View>
         <View style={styles.content}>
-          {this.state.loading && <Loading/>}
+          {this.state.loading && <View style={{marginTop: 10}}>
+            <ActivityIndicator size="large" color="#0000ff"/>
+            </View>}
           <GiftedChat
             messages={this.state.messages}
             onSend={Fire.shared.send}
             user={this.user}
-            onPressAvatar={() => alert('short press')}
+            onPressAvatar={this.onPressAvatar}
           />
         </View>
       </View>

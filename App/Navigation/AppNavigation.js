@@ -1,4 +1,7 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation'
+import UserChatScreen from '../Containers/UserChatScreen'
+import DeviceUserScreen from '../Containers/DeviceUserScreen'
+import ScanDeviceScreen from '../Containers/ScanDeviceScreen'
 import HistoryScreen from '../Containers/HistoryScreen'
 import RoomChatScreen from '../Containers/RoomChatScreen'
 import ChooseDeviceScreen from '../Containers/ChooseDeviceScreen'
@@ -13,6 +16,9 @@ import DrawerNavigatorExample from '../Components/DrawerNav'
 import LaunchScreen from '../Containers/LaunchScreen'
 // Manifest of possible screens
 const PrimaryNav = createStackNavigator({
+  UserChatScreen: { screen: UserChatScreen },
+  DeviceUserScreen: { screen: DeviceUserScreen },
+  ScanDeviceScreen: { screen: ScanDeviceScreen },
   HistoryScreen: { screen: HistoryScreen },
   RoomChatScreen: { screen: RoomChatScreen },
   ChooseDeviceScreen: { screen: ChooseDeviceScreen },

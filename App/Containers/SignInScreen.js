@@ -7,7 +7,9 @@ import {
   TextInput,
   Keyboard,
   KeyboardAvoidingView,
-  AsyncStorage, ActivityIndicator, ScrollView
+  AsyncStorage,
+  ActivityIndicator,
+  CheckBox
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -23,14 +25,17 @@ import PopUpFriend from '../Components/PopUpFriend'
 // Styles
 import styles from './Styles/SignInScreenStyle'
 import { Images } from '../Themes'
+import DoctorTypes from '../Redux/DoctorRedux'
 
 class SignInScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: 'Raegan_Conn',
-      password: 'Dmcx5K5PEb2JT5P',
-      userData: []
+      email: 'Chauncey_Parker',
+      password: 'DrijpyiriUbl6_z',
+      userData: [],
+      isDoctor: false,
+      message: ''
     }
   }
 
@@ -56,8 +61,10 @@ class SignInScreen extends Component {
     if (this.state.email === '' || this.state.password === '') {
       alert('You must be input email and password!!')
     } else {
+      console.log('isDoctor: ', this.state.isDoctor)
       Keyboard.dismiss()
-      this._handleSignIn(email, password).then()
+      if (this.state.isDoctor) this.handleSignForDoctor()
+      else this._handleSignIn(email, password).then()
     }
   }
   _handleSignIn = async (email, password) => {
@@ -71,26 +78,49 @@ class SignInScreen extends Component {
       console.log(e)
     }
   }
+  handleSignForDoctor = async (email, password) => {
+    console.log('action login for doctor')
+    let data = {
+      emailData: email,
+      passwordData: password
+    }
+    try {
+      await this.props.onFetchDoctor(data)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   componentWillReceiveProps (nextProps) {
-    let response = nextProps.user.payload
+    let response = this.state.isDoctor ? nextProps.doctor.payload : nextProps.user.payload
     if (response != null) {
       this.saveUser(nextProps, response).then()
     }
   }
 
+  onChangeDoctor = () => {
+    this.setState({
+      isDoctor: !this.state.isDoctor
+    })
+  }
   saveUser = async (nextProps, response) => {
     let { email, password } = this.state
     await response.map(async (item, index) => {
       if (item.user_name === email && item.password === password) {
         this.setState({
-          userData: item
+          userData: item,
         })
         api.api.setHeader('Authorization', `Bearer ${item.token}`)
         await AsyncStorage.setItem('userToken', item.token)
         await AsyncStorage.setItem('avatar', item.avatar)
         await AsyncStorage.setItem('email', item.email)
-        await AsyncStorage.setItem('userCode', item.user_code.toString())
+        if (this.state.isDoctor === false) {
+          await AsyncStorage.setItem('userCode', item.user_code.toString())
+        }
+        if (this.state.isDoctor) {
+          await AsyncStorage.setItem('typeUser', 'doctor')
+          await AsyncStorage.setItem('doctorCode', item.doctor_code.toString())
+        } else await AsyncStorage.setItem('typeUser', 'user')
         const resetAction = StackActions.reset({
           index: 0,
           actions: [NavigationActions.navigate({ routeName: 'Drawer' })]
@@ -98,10 +128,24 @@ class SignInScreen extends Component {
         nextProps.navigation.dispatch(resetAction)
       }
     })
+    if (this.state.userData.length === 0) {
+      this.setState({
+        message: 'Sai tên tài khoản hoặc mật khẩu!'
+      })
+    }
+    setTimeout(() => {
+      this.setState({
+        message: ''
+      })
+    }, 2000)
   }
   _handleSignUp = () => this.props.navigation.navigate('SignUpScreen')
 
   render () {
+    const renderLoginText = () => {
+      if (!this.props.user.fetching && !this.props.doctor.fetching)
+        return (<Text style={styles.loginText}>Đăng nhập</Text>)
+    }
     return (
       <KeyboardAvoidingView style={styles.keyBoardAvoidingView} behavior="height">
         <View style={styles.container}>
@@ -120,7 +164,7 @@ class SignInScreen extends Component {
                 <Image style={styles.inputIcon}
                        source={Images.iconUser}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Email address"
+                           placeholder="Tên đăng nhập"
                            keyboardType="email-address"
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"
@@ -131,23 +175,34 @@ class SignInScreen extends Component {
                 <Image style={styles.inputIcon}
                        source={Images.iconPassword}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Password"
+                           placeholder="Mật khẩu"
                            secureTextEntry={true}
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"
                            onChangeText={this._onChangePassword}
                            value={this.state.password}/>
               </View>
-              <TouchableOpacity style={styles.forgotButton}>
-                <Text style={styles.forgotText}>Forgot Password</Text>
+              <TouchableOpacity style={styles.checkBox}
+                                onPress={this.onChangeDoctor}
+              >
+                <CheckBox
+                  value={this.state.isDoctor}
+                  onValueChange={this.onChangeDoctor}
+                />
+                <Text style={[styles.forgotText, { color: this.state.isDoctor ? '#73d0e2' : 'gray' }]}>Dành cho Bác
+                  sĩ</Text>
               </TouchableOpacity>
+              {this.state.message !== '' && <Text style={styles.messageText}>
+                {this.state.message}
+              </Text>}
             </View>
             <TouchableOpacity onPress={this._handleAddData} style={styles.loginButton}>
-              {!this.props.user.fetching && <Text style={styles.loginText}>Login</Text>}
-              {this.props.user.fetching && <ActivityIndicator size="small" color="#0000ff"/>}
+              {this.props.doctor.fetching && <ActivityIndicator size="small" color="white"/>}
+              {renderLoginText()}
+              {this.props.user.fetching && <ActivityIndicator size="small" color="white"/>}
             </TouchableOpacity>
             <TouchableOpacity onPress={this._handleSignUp} style={styles.footerButton}>
-              <Text style={styles.signUpButton}>Sign Up</Text>
+              <Text style={styles.signUpButton}>Đăng kí</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -158,7 +213,8 @@ class SignInScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.signIn
+    user: state.signIn,
+    doctor: state.doctor
   }
 }
 
@@ -166,6 +222,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onFetchUser: (data) => {
       dispatch(SignInTypes.signInRequest(data))
+    },
+    onFetchDoctor: (data) => {
+      dispatch(DoctorTypes.doctorRequest(data))
     }
   }
 }

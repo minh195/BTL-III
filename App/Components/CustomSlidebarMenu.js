@@ -18,17 +18,17 @@ export default class CustomSidebarMenu extends Component {
     this.items = [
       {
         navOptionThumb: 'heartbeat',
-        navOptionName: 'Choose device',
+        navOptionName: 'Danh sách Thiết bị',
         screenToNavigate: 'NavScreen1',
       },
       {
-        navOptionThumb: 'wechat',
-        navOptionName: 'Chat',
+        navOptionThumb: 'comments',
+        navOptionName: 'Trò chuyện',
         screenToNavigate: 'NavScreen2',
       },
       {
         navOptionThumb: 'map',
-        navOptionName: 'Map Screen',
+        navOptionName: 'Vị trí thiết bị',
         screenToNavigate: 'NavScreen3',
       },
     ]
@@ -82,11 +82,13 @@ export default class CustomSidebarMenu extends Component {
           borderBottomColor: '#e2e2e2',
           paddingBottom: 10,
           width: '100%',
-          marginBottom: 10
+          marginBottom: 10,
+          alignItems: "center"
         }}>
           <Text style={{
             marginTop: 5,
-            paddingHorizontal: 20
+            paddingHorizontal: 20,
+            textAlign: "center"
           }}>
             {this.state.email}
           </Text>

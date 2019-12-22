@@ -24,7 +24,8 @@ const images = {
   logoLaunch: require('../Images/logoLaunch.png'),
   heartBeat: require('../Images/heartBeat.gif'),
   heartBeatWave: require('../Images/heartBeatWave.gif'),
-  noData: require('../Images/no_data_found.png')
+  noData: require('../Images/no_data_found.png'),
+  logo2: require('../Images/logo2.png')
 }
 
 export default images

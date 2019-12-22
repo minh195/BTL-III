@@ -17,7 +17,8 @@ export default StyleSheet.create({
     color: 'white',
     fontStyle: 'italic',
     fontSize: 20,
-    alignItems: 'center'
+    alignItems: 'center',
+    textAlign: 'center'
   },
   menuIcon: {
     padding: 10

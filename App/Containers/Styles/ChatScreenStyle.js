@@ -11,13 +11,10 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 10,
-    justifyContent: "center"
+    marginLeft: 10
   },
   goBackIcon: {
-    width: 20,
-    height: 20,
-    marginBottom: 8
+    padding: 5
   }, dateMassage: {
     textAlign: 'center',
     marginTop: 10

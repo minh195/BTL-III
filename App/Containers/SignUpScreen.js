@@ -40,7 +40,7 @@ class SignUpScreen extends Component {
                 <Image style={styles.inputIcon}
                        source={Images.iconUser}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Email address"
+                           placeholder="Tên đăng nhập"
                            keyboardType="email-address"
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"/>
@@ -49,7 +49,7 @@ class SignUpScreen extends Component {
                 <Image style={styles.inputIcon}
                        source={Images.iconPassword}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Password"
+                           placeholder="Mật khẩu"
                            secureTextEntry={true}
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"/>
@@ -58,17 +58,14 @@ class SignUpScreen extends Component {
                 <Image style={styles.inputIcon}
                        source={Images.iconPassword}/>
                 <TextInput style={styles.inputs}
-                           placeholder="Password"
+                           placeholder="Nhập lại mật khẩu"
                            secureTextEntry={true}
                            underlineColorAndroid='transparent'
                            placeholderTextColor="lightblue"/>
               </View>
-              <TouchableOpacity style={styles.forgotButton}>
-                <Text style={styles.forgotText}>Forgot Password</Text>
-              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={this._handleAddData} style={styles.loginButton}>
-              <Text style={styles.loginText}>Sign Up</Text>
+            <TouchableOpacity onPress={this._handleAddData} style={styles.SignUpButton}>
+              <Text style={styles.loginText}>Đăng kí</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={this._handleGoBack} style={styles.footerIcon}>
               <Image style={styles.goBackIcon}

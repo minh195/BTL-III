@@ -12,12 +12,16 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
   const getDevice = (data) => api.get(`products?search=${data}`)
   const getLocation = (data) => api.get(`products`)
   const getHistory = () => api.get('historys?sortBy=date_time&order=asc')
+  const getDoctor=(data)=>api.get('doctors')
+  const getUserByDoctor=(data)=>api.get(`users?search=${data}`)
   return {
     api,
     getUser,
     getDevice,
     getHistory,
-    getLocation
+    getLocation,
+    getDoctor,
+    getUserByDoctor
   }
 }
 

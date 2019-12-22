@@ -8,6 +8,8 @@ import { GetFriendLocationTypes } from '../Redux/GetFriendLocationRedux'
 import { GetMessageTypes } from '../Redux/GetMessageRedux'
 import { GetDeviceListTypes } from '../Redux/GetDeviceListRedux'
 import { GetHistoryTypes } from '../Redux/GetHistoryRedux'
+import { DoctorTypes } from '../Redux/DoctorRedux'
+import { GetUserByDoctorTypes } from '../Redux/GetUserByDoctorRedux'
 /* ------------- Sagas ------------- */
 
 import { getSignIn } from './SignInSagas'
@@ -16,6 +18,8 @@ import { AsyncStorage } from 'react-native'
 import { getMessage } from './GetMessageSagas'
 import { getGetDeviceList } from './GetDeviceListSagas'
 import { getGetHistory } from './GetHistorySagas'
+import { getDoctor } from './DoctorSagas'
+import { getGetUserByDoctor } from './GetUserByDoctorSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -35,6 +39,8 @@ export default function * root () {
     takeLatest(GetFriendLocationTypes.GET_FRIEND_LOCATION_REQUEST, getGetFriendLocation, api),
     takeLatest(GetMessageTypes.GET_MESSAGE_REQUEST, getMessage, api2),
     takeLatest(GetDeviceListTypes.GET_DEVICE_LIST_REQUEST, getGetDeviceList, api),
-    takeLatest(GetHistoryTypes.GET_HISTORY_REQUEST, getGetHistory, api)
+    takeLatest(GetHistoryTypes.GET_HISTORY_REQUEST, getGetHistory, api),
+    takeLatest(DoctorTypes.DOCTOR_REQUEST, getDoctor, api),
+    takeLatest(GetUserByDoctorTypes.GET_USER_BY_DOCTOR_REQUEST, getGetUserByDoctor, api)
   ])
 }

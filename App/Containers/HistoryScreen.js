@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './Styles/HistoryScreenStyle'
 import NoData from '../Components/NoData'
 import Loading from '../Components/Loading'
+
 const { height } = Dimensions.get('window')
 
 class HistoryScreen extends Component {
@@ -121,13 +122,13 @@ class HistoryScreen extends Component {
     }
     return (
       <View style={styles.container2}>
-        <View style={styles.iconView}>
+        {!this.props.history.fetching && <View style={styles.iconView}>
           <Text
             style={{ textAlign: 'center' }}>{(this.state.date).toString().split(' ')[0]} {(this.state.date).toString().split(' ')[1]} {(this.state.date).toString().split(' ')[2]}, {(this.state.date).toString().split(' ')[3]}</Text>
           <TouchableOpacity onPress={this.datepicker} style={styles.iconPickDate}>
             <Icon name="calendar" size={24} color="gray"/>
           </TouchableOpacity>
-        </View>
+        </View>}
         {renderNoData()}
         {data.length !== 0 && <View>
           <View style={{ height: height / 2.5, padding: 20, flexDirection: 'row' }}>
@@ -163,7 +164,7 @@ class HistoryScreen extends Component {
                                  display="default"
                                  onChange={this.setDate}/>
         }
-        {this.props.history.fetching && <Loading/>}
+        <View style={{marginTop:30}}>{this.props.history.fetching && <Loading/>}</View>
       </View>
     )
   }

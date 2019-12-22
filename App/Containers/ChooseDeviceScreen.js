@@ -8,7 +8,6 @@ import {
   ScrollView,
   RefreshControl,
   ActivityIndicator,
-  View
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -17,9 +16,11 @@ import { connect } from 'react-redux'
 // Styles
 import styles from './Styles/ChooseDeviceScreenStyle'
 import GetDeviceListTypes from '../Redux/GetDeviceListRedux'
+import GetUserByDoctorTypes from '../Redux/GetUserByDoctorRedux'
 import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import RenderListDevice from '../Components/RenderListDevice'
+import RenderListUser from '../Components/RenderListUser'
 
 class ChooseDeviceScreen extends Component {
   constructor (props) {
@@ -29,15 +30,26 @@ class ChooseDeviceScreen extends Component {
       data: [],
       userId: null,
       deviceData: [],
+      userData: [],
       refreshing: false,
+      doctorId: null,
+      isDoctor: false
     }
   }
 
-  handleNavigate2 = (idDevice, para) => {
+  handleNavigate2 = (idDevice, para, dateTimeRecent) => {
     this.props.navigation.navigate(
       'MonitorScreen', {
         idDevice: idDevice,
-        paraRecent: para
+        paraRecent: para,
+        dateTime: dateTimeRecent
+      }
+    )
+  }
+  handleNavigateToDevice = (id) => {
+    this.props.navigation.navigate(
+      'DeviceUserScreen', {
+        userCode: id
       }
     )
   }
@@ -46,39 +58,73 @@ class ChooseDeviceScreen extends Component {
   }
   renderItem = ({ item, index }) => {
     return (
-      <RenderListDevice item={item} handleNavigate2={this.handleNavigate2}/>
+      <RenderListDevice item={item}
+                        handleNavigate2={this.handleNavigate2}
+      />
+    )
+  }
+  renderItemUser = ({ item, index }) => {
+    return (
+      <RenderListUser item={item}
+                      handleNavigateToDevice={this.handleNavigateToDevice}
+      />
     )
   }
 
   async componentDidMount () {
-    try {
-      const value = await AsyncStorage.getItem('userCode')
+    console.log("get Param: ", this.props.navigation.getParam('userCode'))
+    const type = await AsyncStorage.getItem('typeUser')
+    if (type === 'doctor') {
+      const value = await AsyncStorage.getItem('doctorCode')
       if (value !== null) {
-        this.setState({userId:value})
-        this.props.onFetchDevice(value)
+        this.setState({
+          doctorId: value,
+          isDoctor: true
+        })
+        this.props.onFetchUser(value)
       }
-    } catch (e) {
-      // error reading value
+    } else {
+      try {
+        const value = await AsyncStorage.getItem('userCode')
+        if (value !== null) {
+          this.setState({ userId: value })
+          this.props.onFetchDevice(value)
+        }
+      } catch (e) {
+        // error reading value
+      }
     }
-
   }
 
   saveDevice = async (nextProps, response) => {
-    this.setState({deviceData:response})
+    this.setState({ deviceData: response })
+  }
+  saveUser = async (nextProps, response) => {
+    this.setState({ userData: response })
   }
 
   componentWillReceiveProps (nextProps) {
-    const response = nextProps.deviceList.payload
-    if (response != null) {
-      this.saveDevice(nextProps, response).then(
-        this.setState({ refreshing: false })
-      )
+    if (this.state.isDoctor) {
+      const response = nextProps.user.payload
+      if (response != null) {
+        this.saveUser(nextProps, response).then(
+          this.setState({ refreshing: false })
+        )
+      }
+    } else {
+      const response = nextProps.deviceList.payload
+      if (response != null) {
+        this.saveDevice(nextProps, response).then(
+          this.setState({ refreshing: false })
+        )
+      }
     }
   }
 
   _onRefresh = () => {
     this.setState({ refreshing: true })
     this.props.onFetchDevice(this.state.userId)
+    this.props.onFetchUser(this.state.doctorId)
   }
 
   render () {
@@ -90,6 +136,7 @@ class ChooseDeviceScreen extends Component {
             onRefresh={this._onRefresh}
           />
         }
+        style={{ backgroundColor: '#F3F5F7' }}
       >
         <ImageBackground source={Images.backgroundHeaderBar}
                          style={styles.backgroundHeaderBar}>
@@ -99,18 +146,27 @@ class ChooseDeviceScreen extends Component {
           >
             <Icon name="bars" size={30} color="#FFF"/>
           </TouchableOpacity>
-          <Text style={styles.textName}>Choose your device</Text>
+          {!this.state.isDoctor && <Text style={styles.textName}>Danh sách thiết bị</Text>}
+          {this.state.isDoctor && <Text style={styles.textName}>Danh sách người dùng</Text>}
           <TouchableOpacity style={styles.bellIcon}>
             <Icon name="bell" size={25} color="#FFF"/>
           </TouchableOpacity>
         </ImageBackground>
-        <Text style={styles.txDeviceList}>Device list:</Text>
-        {this.state.deviceData.length !== 0 &&
+        <Text style={styles.txDeviceList}>Danh sách:</Text>
+        {this.state.isDoctor &&
+        <FlatList
+          data={this.state.userData}
+          renderItem={this.renderItemUser}
+        />}
+        {(this.state.isDoctor && this.props.user.fetching) &&
+        <ActivityIndicator size="large" color="#0000ff"/>}
+        {!this.state.isDoctor &&
         <FlatList
           data={this.state.deviceData}
           renderItem={this.renderItem}
         />}
-        {this.props.deviceList.fetching && <ActivityIndicator size="large" color="#0000ff"/>}
+        {(!this.state.isDoctor && this.props.deviceList.fetching) &&
+        <ActivityIndicator size="large" color="#0000ff"/>}
       </ScrollView>
     )
   }
@@ -118,7 +174,8 @@ class ChooseDeviceScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    deviceList: state.deviceList
+    deviceList: state.deviceList,
+    user: state.userByDoctor
   }
 }
 
@@ -126,6 +183,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onFetchDevice: (data) => {
       dispatch(GetDeviceListTypes.getDeviceListRequest(data))
+    },
+    onFetchUser: (data) => {
+      dispatch(GetUserByDoctorTypes.getUserByDoctorRequest(data))
     }
   }
 }

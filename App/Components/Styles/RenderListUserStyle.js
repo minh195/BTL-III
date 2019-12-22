@@ -1,14 +1,22 @@
-import { StyleSheet, Dimensions } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 
 const width = Dimensions.get('window').width
 export default StyleSheet.create({
   container: {
     flex: 1,
-    maxWidth: width*0.9,
-    margin: 10,
-    borderRadius: 10,
-    marginLeft: 15,
-    padding: 5,
+    marginVertical: 5,
+    marginHorizontal: 15,
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    elevation: 2,
+    backgroundColor: 'white',
     alignItems: 'center'
   },
   flexRow: {
@@ -17,11 +25,15 @@ export default StyleSheet.create({
   imageStyle: {
     width: 60,
     height: 60,
-    borderRadius: 10
+    borderRadius: 30,
   },
   textName: {
+    fontSize: 18,
+    color: '#030303'
+  },
+  textEmail: {
     fontSize: 16,
-    color: 'black'
+    color: '#ABABAB'
   },
   line: {
     width: '100%',
@@ -35,9 +47,9 @@ export default StyleSheet.create({
   locationContent: {
     alignItems: 'center'
   },
-  IconDetail:{
+  IconDetail: {
     position: 'absolute',
     right: 6,
-    top:20,
+    top: 5
   }
 })
