@@ -4,10 +4,10 @@ import {
   Dimensions,
 } from 'react-native'
 import { createDrawerNavigator, DrawerActions } from 'react-navigation'
-import Chat from '../Containers/ChatScreen'
+import UserChatScreen from '../Containers/UserChatScreen'
 import MapScreen from '../Containers/MapScreen'
 import CustomSidebarMenu from './CustomSlidebarMenu'
-import MonitorScreen from '../Containers/MonitorScreen'
+import ChooseDeviceScreen from '../Containers/ChooseDeviceScreen'
 
 global.currentScreenIndex = 0
 
@@ -31,10 +31,10 @@ class NavigationDrawerStructure extends Component {
 const DrawerNavigatorExample = createDrawerNavigator(
   {
     NavScreen1: {
-      screen: MonitorScreen,
+      screen: ChooseDeviceScreen,
     },
     NavScreen2: {
-      screen: Chat,
+      screen: UserChatScreen,
     },
     NavScreen3: {
       screen: MapScreen,

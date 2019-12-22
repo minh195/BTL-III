@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1044016235397",
+    "firebase_url": "https://heart-rate-35d16.firebaseio.com",
+    "project_id": "heart-rate-35d16",
+    "storage_bucket": "heart-rate-35d16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044016235397:android:ba54da30d0f6abca15faec",
+        "android_client_info": {
+          "package_name": "com.bltiii"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044016235397-6u8iqlehnkveds8g7flnka6dpu4qqsgj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ5OVf-fwysnGld1Fytc8IKSP6VAvl0eY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044016235397-6u8iqlehnkveds8g7flnka6dpu4qqsgj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,9 +8,8 @@ import {
 } from 'react-native'
 
 import styles from './Styles/CustomSlidebarMenuStyle'
-import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { DrawerActions } from 'react-navigation'
+import { DrawerActions, NavigationActions, StackActions } from 'react-navigation'
 import PopUpLogOut from './PopUpLogOut'
 
 export default class CustomSidebarMenu extends Component {
@@ -18,39 +17,82 @@ export default class CustomSidebarMenu extends Component {
     super(props)
     this.items = [
       {
-        navOptionThumb: 'snapchat',
-        navOptionName: 'Monitor',
+        navOptionThumb: 'heartbeat',
+        navOptionName: 'Danh sách Thiết bị',
         screenToNavigate: 'NavScreen1',
       },
       {
-        navOptionThumb: 'wechat',
-        navOptionName: 'Chat',
+        navOptionThumb: 'comments',
+        navOptionName: 'Trò chuyện',
         screenToNavigate: 'NavScreen2',
       },
       {
-        navOptionThumb: 'wechat',
-        navOptionName: 'Map Screen',
+        navOptionThumb: 'map',
+        navOptionName: 'Vị trí thiết bị',
         screenToNavigate: 'NavScreen3',
       },
     ]
+    this.state = {
+      avatar: null,
+      email: ''
+    }
   }
 
   _signOutAsync = async () => {
+    global.currentScreenIndex = 0
     await this.props.navigation.dispatch(DrawerActions.closeDrawer())
     await this.refs.addModal1.showModal()
   }
 
   _HandleLogOut = async () => {
     await AsyncStorage.clear()
-    await this.props.navigation.navigate('SignInScreen')
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'SignInScreen' })]
+    })
+    this.props.navigation.dispatch(resetAction)
+  }
+
+  componentDidMount () {
+    this.getData().then()
+  }
+
+  getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('avatar')
+      const value2 = await AsyncStorage.getItem('email')
+      if (value !== null) {
+        this.setState({
+          avatar: value,
+          email: value2
+        })
+      }
+    } catch (e) {
+      // error reading value
+    }
   }
 
   render () {
     return (
       <View style={styles.sideMenuContainer}>
-        <Image source={Images.avatarDrawer}
+        <Image source={{ uri: this.state.avatar }}
                style={styles.sideMenuProfileIcon}/>
-        <View style={styles.divider}/>
+        <View style={{
+          borderBottomWidth: 1,
+          borderBottomColor: '#e2e2e2',
+          paddingBottom: 10,
+          width: '100%',
+          marginBottom: 10,
+          alignItems: "center"
+        }}>
+          <Text style={{
+            marginTop: 5,
+            paddingHorizontal: 20,
+            textAlign: "center"
+          }}>
+            {this.state.email}
+          </Text>
+        </View>
         <View style={{ width: '100%' }}>
           {this.items.map((item, key) => (
             <View style={[styles.itemContainer,

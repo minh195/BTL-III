@@ -18,7 +18,7 @@ export default class LaunchScreen extends Component {
     this.props.navigation.navigate('SignInScreen')
   }
   handleSignUp = () => {
-    this.props.navigation.navigate('SignInScreen')
+    this.props.navigation.navigate('SignUpScreen')
   }
 
   async componentDidMount () {
@@ -30,7 +30,7 @@ export default class LaunchScreen extends Component {
   render () {
     return (
       <ImageBackground source={Images.bgLaunch} style={styles.backgroundImage} resizeMode='stretch'>
-        <Image source={Images.logoLaunch} style={styles.logoLaunch}/>
+        <Image source={Images.logo2} style={styles.logoLaunch}/>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.buttonStyle} onPress={this.handleSignIn}>
             <Text style={styles.buttonText}>Login</Text>

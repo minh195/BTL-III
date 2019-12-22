@@ -38,7 +38,6 @@ export default class PopUpFriend extends Component {
 
   render () {
     const { friendData } = this.state
-    console.log('maker in modal: ', this.state.friendData)
     return (
       <Modal ref={'myModal'}
              transparent={true}

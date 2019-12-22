@@ -2,211 +2,104 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  FlatList,
-  TextInput,
   TouchableOpacity,
-  Image,
-  Keyboard,
   ImageBackground,
-  AsyncStorage,
+  AsyncStorage, ActivityIndicator,
 } from 'react-native'
 import styles from './Styles/ChatScreenStyle'
 import { Images } from '../Themes'
 import PopUpMoDal from '../Components/PopUpMoDal'
-import Loading from '../Components/Loading'
 import { connect } from 'react-redux'
-import GetMessageTypes from '../Redux/GetMessageRedux'
+import Fire from '../Components/Fire'
+import { GiftedChat } from 'react-native-gifted-chat'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 class ChatScreen extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      items: [{
-        type: 1,
-        key: '1',
-        id: 1,
-        label: `I'm ok thanks for asking and you? It's been a long time since we've seen each other.`,
-        receiveMes: ''
-      }],
-      text: '',
-      loading: true,
-      error: false,
-      posts: '',
-      value: ''
+  goBack = () => {
+    this.props.navigation.goBack()
+  }
+  static navigationOptions = ({ navigation }) => ({
+    title: (navigation.state.params || {}).name || 'Chat!',
+  })
+
+  state = {
+    messages: [],
+    email: '',
+    loading: true
+  }
+
+  get user () {
+    return {
+      // name: this.props.navigation.state.params.name,
+      name: this.state.email,
+      _id: Fire.shared.uid
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    let { items } = this.state
-    let posts = nextProps.messages.payload
-    if (posts != null) {
-      console.log(posts)
-      let item = {
-        type: 2,
-        id: items[items.length - 1].id++, // get the last id of our items and increment it(i.e +1)
-        receiveMes: posts//remove line space
-      }
-      items.push(item) // add our new item
-      let _lengthItems = this.state.items.length
-      console.log(this.state.items)
-      this.state.items.splice(_lengthItems - 2, 1)
-    }
-  }
-
-  _onChangeText = (text) => this.setState({ text, item: text })
-  submitAndClear = () => {
-    this.setState({
-      text: ''
-    })
-  }
-  openDrawer = () => {
-    this.props.navigation.openDrawer()
-  }
-  addItem = (value) => {
-    if (this.state.text === '') {
-      alert('Type a message!!')
-    } else {
-      let { items } = this.state
-      let item = {
-        id: items[items.length - 1].id++,
-        type: 1,
-        label: value
-      }
-      items.push(item)
-      Keyboard.dismiss()
-      this.submitAndClear()
-      this.HandleReceiveMessage(value)
-    }
-  }
-  HandleReceiveMessage = (value) => {
-    const { items } = this.state
-    let item = {
-      type: 3,
-      id: items[items.length - 1].id++,
-    }
-    items.push(item)
+  getData = async () => {
     try {
-      this.props.onFetchMessage(value)
+      const value = await AsyncStorage.getItem('email')
+      if (value !== null) {
+        this.setState({
+          email: value
+        })
+      }
     } catch (e) {
-      console.log(e)
+      // error reading value
     }
   }
-  renderItem = ({ item }) => {
-    let { label, receiveMes, type } = item
-    const { error } = this.state
-    if (error) {
-      return (
-        <View style={styles.center}>
-          <Text>Failed to load message!</Text>
-        </View>
-      )
-    }
-    if (type === 1) {
-      return (
-        <View style={styles.item}>
-          <View>
-            <Text style={styles.textMessage}>
-              {label}
-              <Text style={styles.timeMessage}>
-                {'\n'}12:23 PM
-              </Text>
-              <Text> ✓</Text>
-            </Text>
-          </View>
-          <Image style={styles.avatarUser}
-                 source={Images.myAvatar}/>
-        </View>
-      )
-    }
-    if (type === 3) {
-      return (
-        <Loading/>
-      )
-    } else {
-      return (
-        <View style={styles.item1}>
-          <Image style={styles.avatarUser1}
-                 source={Images.avatarUser}/>
-          <Text style={styles.textMessage1}>
-            {receiveMes}
-            <Text style={styles.timeMessage1}>{'\n'}01:22 PM</Text>
-          </Text>
-        </View>
-      )
-    }
+  configChat = (mes) => {
+    console.log('message from database: ', mes)
   }
 
   componentDidMount () {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-    )
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-    )
+    console.log("item name: ", this.props.navigation.getParam("name",'No Data'))
+    console.log("item email: ", this.props.navigation.getParam("email",'No Data'))
+    Fire.shared.on(message => {
+      this.setState(previousState => ({
+        messages: GiftedChat.append(previousState.messages, message),
+        loading: false
+      }))
+      this.configChat(message)
+    })
+    this.getData().then()
+
   }
 
   componentWillUnmount () {
-    this.keyboardDidShowListener.remove()
-    this.keyboardDidHideListener.remove()
+    Fire.shared.off()
   }
 
-  _signOutAsync = async () => {
-    await AsyncStorage.clear()
-    this.props.navigation.navigate('SignInScreen')
+  onPressAvatar = () => {
+    this.props.navigation.navigate('FriendDetailScreen')
   }
 
   render () {
     console.disableYellowBox = true
-    let { items, item } = this.state
     return (
       <View style={styles.container}>
         <PopUpMoDal ref={'addModal'}/>
-        <View style={styles.header}>
           <ImageBackground source={Images.backgroundHeaderBar}
                            style={styles.backgroundHeaderBar}>
             <View style={styles.elementHeader}>
-              <TouchableOpacity onPress={this.openDrawer}  style={styles.goBackIcon}>
-                <Icon name="bars" size={30} color="#FFF"/>
+              <TouchableOpacity onPress={this.goBack} style={styles.goBackIcon}>
+                <Icon name="arrow-left" size={30} color="#FFF"/>
               </TouchableOpacity>
-              <View>
-                <Text style={styles.textName}>Johny</Text>
+              <View style={{ alignSelf: 'center' }}>
+                <Text style={styles.textName}>{this.props.navigation.getParam("name",'No Data')}</Text>
               </View>
             </View>
           </ImageBackground>
-        </View>
         <View style={styles.content}>
-          <Text style={styles.dateMassage}>TODAY</Text>
-          <FlatList data={items}
-                    keyExtractor={(item, index) => item.key}
-                    renderItem={this.renderItem}
-                    ref={ref => this.flatList = ref}
-                    onContentSizeChange={() => this.flatList.scrollToEnd({ animated: true })}
-                    onLayout={() => this.flatList.scrollToEnd({ animated: true })}/>
-        </View>
-        <View style={styles.footer}>
-          <View style={styles.reactIcon}>
-            <TouchableOpacity>
-              <Image style={{ width: 20, height: 20, margin: 5 }}
-                     source={Images.addIcon}/>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image style={{ width: 25, height: 25, margin: 5 }}
-                     source={Images.smileIcon}/>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TextInput style={styles.textInput}
-                       placeholder={'Type a massage...'}
-                       onChangeText={this._onChangeText}
-                       value={this.state.text}/>
-          </View>
-          <View>
-            <TouchableOpacity onPress={() => this.addItem(item)}>
-              <Image source={Images.sendIcon}
-                     style={styles.send_icon}/>
-            </TouchableOpacity>
-          </View>
+          {this.state.loading && <View style={{marginTop: 10}}>
+            <ActivityIndicator size="large" color="#0000ff"/>
+            </View>}
+          <GiftedChat
+            messages={this.state.messages}
+            onSend={Fire.shared.send}
+            user={this.user}
+            onPressAvatar={this.onPressAvatar}
+          />
         </View>
       </View>
     )
@@ -214,17 +107,12 @@ class ChatScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    messages: state.messageReducer
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    onFetchMessage: (data) => {
-      dispatch(GetMessageTypes.getMessageRequest(data))
-    },
-  }
+  return {}
 }
+
 const Chat = connect(mapStateToProps, mapDispatchToProps)(ChatScreen)
 export default Chat

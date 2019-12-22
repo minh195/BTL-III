@@ -2,108 +2,46 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  Image,
   ImageBackground,
   TouchableOpacity,
-  Button
+  ScrollView,
+  RefreshControl,
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
+import GetHistoryTypes from '../Redux/GetHistoryRedux'
 // Styles
+
 import styles from './Styles/MonitorScreenStyle'
 import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { Grid, LineChart, XAxis, YAxis } from 'react-native-svg-charts'
-
+import Monitor from '../Components/Monitor'
+import HistoryScreen from './HistoryScreen'
 class MonitorScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
       titleBar: 1,
       isChoose1: true,
-      isChoose2: false
+      isChoose2: false,
+      itemChoose: null
     }
   }
-
-  openDrawer = () => {
-    this.props.navigation.openDrawer()
+  goBack =()=>{
+    this.props.navigation.navigate({ routeName: "Drawer" })
   }
   renderContent = () => {
-    console.log(this.state.titleBar)
     switch (this.state.titleBar) {
       case 1:
         return (
-          <View style={styles.content}>
-            <Image source={Images.heartBeat} style={styles.heartBeatGif}/>
-            <View style={styles.valueContent}>
-              <Text style={styles.valueText}>72</Text>
-              <Text style={styles.unitText}>beats per minute</Text>
-            </View>
-            <Image source={Images.heartBeatWave} style={styles.heartBeatWaveGif}/>
-          </View>
+          <Monitor param={this.props.navigation.getParam("paraRecent",'No Data')}
+                   dateTimeParam={this.props.navigation.getParam("dateTime",'No Data')}
+          />
         )
       case 2:
-        const data = [50, 60, 40, 95, 100, 120, 85, 91, 50, 53, 53, 40, 50, 40, 80]
-        const axesSvg = { fontSize: 10, fill: 'grey' }
-        const verticalContentInset = { top: 10, bottom: 10 }
-        const xAxisHeight = 30
         return (
-          <View style={styles.container2}>
-            <View>
-              <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
-                <YAxis
-                  data={data}
-                  style={{ marginBottom: xAxisHeight }}
-                  contentInset={verticalContentInset}
-                  svg={axesSvg}
-                />
-                <View style={{ flex: 1, marginLeft: 10 }}>
-                  <LineChart
-                    style={{ flex: 1 }}
-                    data={data}
-                    contentInset={verticalContentInset}
-                    svg={{ stroke: 'rgb(134, 65, 244)' }}
-                  >
-                    <Grid/>
-                  </LineChart>
-                  <XAxis
-                    style={{ marginHorizontal: -10, height: xAxisHeight }}
-                    data={data}
-                    formatLabel={(value, index) => index}
-                    contentInset={{ left: 10, right: 10 }}
-                    svg={axesSvg}
-                  />
-                </View>
-              </View>
-              <View style={styles.bottomValueContainer}>
-                <View>
-                  <Text>
-                    Min
-                  </Text>
-                  <Text>
-                    50
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    Max
-                  </Text>
-                  <Text>
-                    120
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    Avg
-                  </Text>
-                  <Text>
-                    70
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
+          <HistoryScreen idDevice={this.props.navigation.getParam('idDevice', 'NO-ID')}/>
         )
       default:
         return null
@@ -133,20 +71,21 @@ class MonitorScreen extends Component {
       })
     }
   }
+  _onRefresh = () => {
 
+  }
   render () {
-    console.log(this.state.titleBar)
     return (
       <View style={styles.container}>
         <ImageBackground source={Images.backgroundHeaderBar}
                          style={styles.backgroundHeaderBar}>
           <TouchableOpacity
-            onPress={this.openDrawer}
             style={styles.menuIcon}
+            onPress={this.goBack}
           >
-            <Icon name="bars" size={30} color="#FFF"/>
+            <Icon name="arrow-left" size={30} color="#FFF"/>
           </TouchableOpacity>
-          <Text style={styles.textName}>Heart Rate</Text>
+          <Text style={styles.textName}>Nhịp tim</Text>
           <TouchableOpacity style={styles.bellIcon}>
             <Icon name="bell" size={25} color="#FFF"/>
           </TouchableOpacity>
@@ -156,14 +95,14 @@ class MonitorScreen extends Component {
             onPress={this.handleNavigate1}
             style={styles.navigateButton}
           >
-            <Text style={styles.navigateText}>Measure</Text>
+            <Text style={styles.navigateText}>Thông số</Text>
             {this.state.isChoose1 && <View style={styles.chooseView}/>}
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.handleNavigate2}
             style={styles.navigateButton}
           >
-            <Text style={styles.navigateText}>Statistics</Text>
+            <Text style={styles.navigateText}>Lịch sử</Text>
             {this.state.isChoose2 && <View style={styles.chooseView}/>}
           </TouchableOpacity>
         </View>
@@ -176,11 +115,13 @@ class MonitorScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonitorScreen)

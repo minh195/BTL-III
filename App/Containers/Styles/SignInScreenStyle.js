@@ -44,6 +44,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+    zIndex: 20
     // shadowColor: '#000',
     // shadowOffset: {
     //   width: 0,
@@ -70,6 +71,7 @@ export default StyleSheet.create({
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',
     flex: 1,
+    zIndex:90
   },
   inputIcon: {
     width: 16,
@@ -80,9 +82,17 @@ export default StyleSheet.create({
   forgotButton: {
     marginLeft: 140
   },
+  checkBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: -10
+  },
   forgotText: {
-    color: 'gray',
     fontSize: 12,
+  },
+  messageText:{
+    fontSize: 12,
+    color: 'red'
   },
   footerButton: {
     flex: 0.15,
@@ -103,18 +113,33 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     marginTop: -20,
+    flexDirection: 'row',
+    zIndex: 40
+  },
+  SignUpButton: {
+    backgroundColor: '#73d0e2',
+    height: 40,
+    width: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    marginTop: 20,
+    flexDirection: 'row',
+    zIndex: 40
   },
   loginText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
+    marginLeft: 5
   },
   signUpButton: {
     color: '#73d0e2',
     fontSize: 16,
   },
   goBackIcon: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
+
   },
 })
