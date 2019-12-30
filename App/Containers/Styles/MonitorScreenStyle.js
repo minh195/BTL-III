@@ -21,13 +21,15 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   menuIcon: {
-    padding: 10
+    padding: 10,
+    marginLeft:5
   },
   textContent: {
     alignItems: 'center'
   },
   bellIcon: {
-    padding: 10
+    padding: 10,
+    marginRight:5
   },
   content: {
     flex: 1,

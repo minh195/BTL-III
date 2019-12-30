@@ -4,12 +4,10 @@ import { ApplicationStyles } from '../../Themes/'
 const heights = Dimensions.get('window').height
 const widths = Dimensions.get('window').width
 export default StyleSheet.create({
-  ...ApplicationStyles.screen,
   markerAvatar: {
     height: 25,
     width: 25,
     borderRadius: 12.5,
-    margin: 3,
   },
   markerName: {
     fontSize: 10,
@@ -27,9 +25,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 40,
-    width: 100,
     backgroundColor: 'white',
-    borderRadius: 20
+    borderRadius: 20,
+    padding: 5
   },
   mapContainer: {
     height: heights,
@@ -37,7 +35,7 @@ export default StyleSheet.create({
   },
   signOutButton: {
     flexDirection: 'row',
-    marginVertical: 20,
+    marginVertical: 40,
     marginLeft: 20,
     backgroundColor: 'transparent',
     position: 'absolute'

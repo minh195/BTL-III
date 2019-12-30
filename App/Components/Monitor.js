@@ -7,7 +7,6 @@ import { Images } from '../Themes'
 export default class Monitor extends Component {
 
   render () {
-    console.log("item passed: ", this.props.dateTimeParam)
     return (
       <View style={styles.content}>
         <Image source={Images.heartBeat} style={styles.heartBeatGif}/>

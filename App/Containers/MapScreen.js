@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import {
-  Text,
   View,
   TouchableOpacity,
   Image,
+  AsyncStorage,
 } from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
@@ -16,6 +16,7 @@ import Loading from '../Components/Loading'
 import styles from './Styles/MapScreenStyle'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import GetFriendLocationTypes from '../Redux/GetFriendLocationRedux'
+import GetDeviceListTypes from '../Redux/GetDeviceListRedux'
 
 class MapScreen extends Component {
   constructor (props) {
@@ -25,27 +26,77 @@ class MapScreen extends Component {
       makerData: {},
       isLoading: true,
       initialRegion: {
-        latitude: 21.0339828,
-        longitude: 105.7653803,
-        latitudeDelta: 0.09221,
-        longitudeDelta: 0.04211,
+        latitude: null,
+        longitude: null,
+        latitudeDelta: null,
+        longitudeDelta: null,
+      },
+      isDoctor: false,
+      deviceData: []
+    }
+  }
+
+  async componentDidMount () {
+    const type = await AsyncStorage.getItem('typeUser')
+
+    if (type === 'doctor') {
+      this.setState({
+        isDoctor: true
+      })
+      this.props.onFetchFriend()
+    } else {
+      try {
+        const value = await AsyncStorage.getItem('userCode')
+        if (value !== null) {
+          this.props.onFetchDevice(value)
+        }
+      } catch (e) {
+        // error reading value
       }
     }
   }
 
-  componentDidMount () {
-    this.props.onFetchFriend()
-  }
-
-  static getDerivedStateFromProps (nextProps) {
-    const response = nextProps.friends.payload
-    console.log('response maps: ', response)
-    if (response != null) {
-      return {
-        isLoading: false,
-        data: response
+  componentWillReceiveProps (nextProps) {
+    if (this.state.isDoctor) {
+      const response = nextProps.friends.payload
+      if (response != null) {
+        this.setState({
+          isLoading: false,
+          data: response,
+          initialRegion: {
+            latitude: response[0] != null && parseFloat(response[2].lat),
+            longitude: response[0] != null && parseFloat(response[2].lng),
+            latitudeDelta: 0.09221,
+            longitudeDelta: 0.04211,
+          }
+        })
       }
-    } else return null
+    } else {
+      const response = nextProps.deviceList.payload
+
+      if (response != null) {
+        console.log('response null: ', response.length)
+        if (response.length === 0) {
+          this.setState({
+            isLoading: false,
+          })
+          global.currentScreenIndex = 0
+          alert('Không có thiết bị nào, liên hệ chúng tôi để được cung cấp thiết bị!')
+          // this.props.navigation.navigate('Drawer')
+        } else {
+          this.setState({
+            deviceData: response,
+            isLoading: false,
+            initialRegion: {
+              latitude: response[0] != null && parseFloat(response[0].lat),
+              longitude: response[0] != null && parseFloat(response[0].lng),
+              latitudeDelta: 0.09221,
+              longitudeDelta: 0.04211,
+            }
+          })
+        }
+      }
+    }
   }
 
   showFriends = (data) => {
@@ -63,7 +114,6 @@ class MapScreen extends Component {
         <View style={styles.maker}>
           <Image source={{ uri: marker.image }}
                  style={styles.markerAvatar}/>
-          <Text style={styles.markerName}>{marker.name}</Text>
         </View>
       </Marker>
     ))
@@ -81,7 +131,7 @@ class MapScreen extends Component {
   }
 
   render () {
-    const { data, isLoading } = this.state
+    const { data, isLoading, deviceData, isDoctor } = this.state
     if (isLoading) {
       return (
         <Loading/>
@@ -90,12 +140,13 @@ class MapScreen extends Component {
     return (
       <View>
         <PopUpFriend ref={'addModal'} showFriend={this._showDetailFriend}/>
-        <MapView
+        {(this.state.initialRegion.latitude != null && this.state.initialRegion.longitude != null && this.state.initialRegion.latitudeDelta != null && this.state.initialRegion.longitudeDelta != null)
+        && <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.mapContainer}
           initialRegion={this.state.initialRegion}>
-          {this.showFriends(data)}
-        </MapView>
+          {isDoctor ? this.showFriends(data) : this.showFriends(deviceData)}
+        </MapView>}
         <View style={styles.signOutButton}>
           <TouchableOpacity onPress={this._signOutAsync}>
             <Icon name="arrow-left" size={25} color="#82C91E"/>
@@ -108,7 +159,8 @@ class MapScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    friends: state.getFriend
+    friends: state.getFriend,
+    deviceList: state.deviceList
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -116,9 +168,9 @@ const mapDispatchToProps = (dispatch) => {
     onFetchFriend: () => {
       dispatch(GetFriendLocationTypes.getFriendLocationRequest())
     },
-    // onFetchClear: () => {
-    //   dispatch(GetFriendLocationTypes.getFriendLocationClear())
-    // }
+    onFetchDevice: (data) => {
+      dispatch(GetDeviceListTypes.getDeviceListRequest(data))
+    }
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MapScreen)

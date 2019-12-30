@@ -85,7 +85,7 @@ class DeviceUserScreen extends Component {
           </TouchableOpacity>
           <Text style={styles.textName}>Danh sách thiết bị</Text>
           <TouchableOpacity style={styles.bellIcon}>
-            <Icon name="bell" size={25} color="#FFF"/>
+            {/*<Icon name="bell" size={25} color="#FFF"/>*/}
           </TouchableOpacity>
         </ImageBackground>
         <Text style={styles.txDeviceList}>Danh sách:</Text>

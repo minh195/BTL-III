@@ -15,7 +15,8 @@ export const reducers = combineReducers({
   deviceList: require('./GetDeviceListRedux').reducer,
   history: require('./GetHistoryRedux').reducer,
   doctor: require('./DoctorRedux').reducer,
-  userByDoctor: require('./GetUserByDoctorRedux').reducer
+  userByDoctor: require('./GetUserByDoctorRedux').reducer,
+  userByID: require('./GetUserByIdRedux').reducer
 })
 
 export default () => {

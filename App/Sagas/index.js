@@ -10,6 +10,7 @@ import { GetDeviceListTypes } from '../Redux/GetDeviceListRedux'
 import { GetHistoryTypes } from '../Redux/GetHistoryRedux'
 import { DoctorTypes } from '../Redux/DoctorRedux'
 import { GetUserByDoctorTypes } from '../Redux/GetUserByDoctorRedux'
+import { GetUserByIdTypes } from '../Redux/GetUserByIdRedux'
 /* ------------- Sagas ------------- */
 
 import { getSignIn } from './SignInSagas'
@@ -20,6 +21,7 @@ import { getGetDeviceList } from './GetDeviceListSagas'
 import { getGetHistory } from './GetHistorySagas'
 import { getDoctor } from './DoctorSagas'
 import { getGetUserByDoctor } from './GetUserByDoctorSagas'
+import { getGetUserById } from './GetUserByIdSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -41,6 +43,7 @@ export default function * root () {
     takeLatest(GetDeviceListTypes.GET_DEVICE_LIST_REQUEST, getGetDeviceList, api),
     takeLatest(GetHistoryTypes.GET_HISTORY_REQUEST, getGetHistory, api),
     takeLatest(DoctorTypes.DOCTOR_REQUEST, getDoctor, api),
-    takeLatest(GetUserByDoctorTypes.GET_USER_BY_DOCTOR_REQUEST, getGetUserByDoctor, api)
+    takeLatest(GetUserByDoctorTypes.GET_USER_BY_DOCTOR_REQUEST, getGetUserByDoctor, api),
+    takeLatest(GetUserByIdTypes.GET_USER_BY_ID_REQUEST, getGetUserById, api)
   ])
 }

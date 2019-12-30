@@ -10,8 +10,6 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import { connect } from 'react-redux'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
 
 // Styles
 import styles from './Styles/ChooseDeviceScreenStyle'
@@ -21,6 +19,7 @@ import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import RenderListDevice from '../Components/RenderListDevice'
 import RenderListUser from '../Components/RenderListUser'
+import NoData from '../Components/NoData'
 
 class ChooseDeviceScreen extends Component {
   constructor (props) {
@@ -46,6 +45,7 @@ class ChooseDeviceScreen extends Component {
       }
     )
   }
+
   handleNavigateToDevice = (id) => {
     this.props.navigation.navigate(
       'DeviceUserScreen', {
@@ -72,7 +72,6 @@ class ChooseDeviceScreen extends Component {
   }
 
   async componentDidMount () {
-    console.log("get Param: ", this.props.navigation.getParam('userCode'))
     const type = await AsyncStorage.getItem('typeUser')
     if (type === 'doctor') {
       const value = await AsyncStorage.getItem('doctorCode')
@@ -149,7 +148,7 @@ class ChooseDeviceScreen extends Component {
           {!this.state.isDoctor && <Text style={styles.textName}>Danh sách thiết bị</Text>}
           {this.state.isDoctor && <Text style={styles.textName}>Danh sách người dùng</Text>}
           <TouchableOpacity style={styles.bellIcon}>
-            <Icon name="bell" size={25} color="#FFF"/>
+            {/*<Icon name="bell" size={25} color="#FFF"/>*/}
           </TouchableOpacity>
         </ImageBackground>
         <Text style={styles.txDeviceList}>Danh sách:</Text>
@@ -165,6 +164,7 @@ class ChooseDeviceScreen extends Component {
           data={this.state.deviceData}
           renderItem={this.renderItem}
         />}
+        {(!this.state.isDoctor && this.state.deviceData.length === 0 && !this.props.deviceList.fetching) && <NoData/>}
         {(!this.state.isDoctor && this.props.deviceList.fetching) &&
         <ActivityIndicator size="large" color="#0000ff"/>}
       </ScrollView>

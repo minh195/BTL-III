@@ -4,14 +4,15 @@ import { ApplicationStyles } from '../../Themes/'
 const heights = Dimensions.get('window').height
 const widths = Dimensions.get('window').width
 export default StyleSheet.create({
-  ...ApplicationStyles.screen,
   friendAvatar: {
     width: widths,
     height: 0.5 * heights
   },
   textNumber: {
     fontWeight: 'bold',
-    color: 'black',
+    textAlign: 'center'
+  },
+  textInfo: {
     textAlign: 'center'
   },
   flatListItem: {
@@ -48,14 +49,19 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 90,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 0.5,
+    borderTopColor: '#CDD4DA',
+    borderRightWidth: 0.5,
+    borderRightColor: '#CDD4DA',
+    borderLeftWidth: 0.5,
+    borderLeftColor: '#CDD4DA'
   },
   fullNameText: {
     color: 'black',
     fontSize: 24
   },
   companyText: {
-    color: 'black',
     fontSize: 14
   },
   counterContainer: {
@@ -64,7 +70,13 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     height: 90,
-    backgroundColor: '#F8F8F8'
+    backgroundColor: '#F8F8F8',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#CDD4DA',
+    borderRightWidth: 0.5,
+    borderRightColor: '#CDD4DA',
+    borderLeftWidth: 0.5,
+    borderLeftColor: '#CDD4DA'
   },
   followButton: {
     alignItems: 'center',
@@ -89,5 +101,8 @@ export default StyleSheet.create({
   flatListContainer: {
     flex: 1,
     justifyContent: 'flex-end'
+  },
+  widthDivThree: {
+    width: '33%'
   }
 })

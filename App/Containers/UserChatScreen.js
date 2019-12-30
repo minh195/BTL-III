@@ -8,6 +8,8 @@ import {
   ScrollView,
   RefreshControl,
   ActivityIndicator,
+  View,
+  TextInput
 } from 'react-native'
 import { connect } from 'react-redux'
 // Styles
@@ -23,7 +25,10 @@ class UserChatScreen extends Component {
     this.state = {
       data: [],
       userData: [],
-      refreshing: false
+      refreshing: false,
+      doctorData: null,
+      loading: false,
+      text: ''
     }
   }
 
@@ -31,7 +36,7 @@ class UserChatScreen extends Component {
     this.props.navigation.navigate(
       'ChatScreen', {
         email: email,
-        name: name
+        name: name,
       }
     )
   }
@@ -48,13 +53,29 @@ class UserChatScreen extends Component {
   }
 
   async componentDidMount () {
-    const value = await AsyncStorage.getItem('doctorCode')
-    if (value !== null) {
+    const type = await AsyncStorage.getItem('typeUser')
+    if (type === 'doctor') {
+      const value = await AsyncStorage.getItem('doctorCode')
+      if (value !== null) {
+        this.setState({
+          doctorId: value,
+          isDoctor: true
+        })
+        this.props.onFetchUser(value)
+      }
+    } else {
       this.setState({
-        doctorId: value,
-        isDoctor: true
+        loading: true
       })
-      this.props.onFetchUser(value)
+      const value = await AsyncStorage.getItem('doctorCode')
+      fetch(`https://5dcd7cd3d795470014e4d1cd.mockapi.io/doctors?search=${value}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          this.setState({
+            doctorData: responseJson[0],
+            loading: false
+          })
+        })
     }
   }
 
@@ -97,15 +118,31 @@ class UserChatScreen extends Component {
           </TouchableOpacity>
           <Text style={styles.textName}>Danh sách trò chuyện</Text>
           <TouchableOpacity style={styles.bellIcon}>
-            <Icon name="bell" size={25} color="#FFF"/>
+            {/*<Icon name="plus" size={25} color="#FFF"/>*/}
           </TouchableOpacity>
         </ImageBackground>
-        <Text style={styles.txDeviceList}>Danh sách:</Text>
+        <View style={styles.searchContainer}>
+          <View style={{marginRight: 5}}>
+            <Icon name="search" size={20} color="#CDD4DA"/>
+          </View>
+          <TextInput
+            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+            onChangeText={text => this.setState({ text })}
+            placeholder="Tìm kiếm cuộc trò chuyện"
+            value={this.state.text}
+            style={styles.textInput}
+          />
+        </View>
         <FlatList
           data={this.state.userData}
           renderItem={this.renderItemUser}
         />
-        {this.props.user.fetching && <ActivityIndicator size="large" color="#0000ff"/>}
+        {(!this.state.isDoctor && !this.state.loading) &&
+        <RenderItemChat item={this.state.doctorData != null && this.state.doctorData}
+                        handleNavigateToChat={this.handleNavigateToChat}
+        />}
+
+        {(this.props.user.fetching || this.state.loading) && <ActivityIndicator size="large" color="#0000ff"/>}
       </ScrollView>
     )
   }

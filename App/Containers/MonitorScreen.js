@@ -18,6 +18,7 @@ import { Images } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Monitor from '../Components/Monitor'
 import HistoryScreen from './HistoryScreen'
+
 class MonitorScreen extends Component {
   constructor (props) {
     super(props)
@@ -28,15 +29,16 @@ class MonitorScreen extends Component {
       itemChoose: null
     }
   }
-  goBack =()=>{
-    this.props.navigation.navigate({ routeName: "Drawer" })
+
+  goBack = () => {
+    this.props.navigation.navigate({ routeName: 'Drawer' })
   }
   renderContent = () => {
     switch (this.state.titleBar) {
       case 1:
         return (
-          <Monitor param={this.props.navigation.getParam("paraRecent",'No Data')}
-                   dateTimeParam={this.props.navigation.getParam("dateTime",'No Data')}
+          <Monitor param={this.props.navigation.getParam('paraRecent', 'No Data')}
+                   dateTimeParam={this.props.navigation.getParam('dateTime', 'No Data')}
           />
         )
       case 2:
@@ -74,6 +76,11 @@ class MonitorScreen extends Component {
   _onRefresh = () => {
 
   }
+
+  onNavigate = () => {
+    this.props.navigation.navigate('ScanDeviceScreen')
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -86,8 +93,10 @@ class MonitorScreen extends Component {
             <Icon name="arrow-left" size={30} color="#FFF"/>
           </TouchableOpacity>
           <Text style={styles.textName}>Nhịp tim</Text>
-          <TouchableOpacity style={styles.bellIcon}>
-            <Icon name="bell" size={25} color="#FFF"/>
+          <TouchableOpacity style={styles.bellIcon}
+                            onPress={this.onNavigate}
+          >
+            <Icon name="search" size={25} color="#FFF"/>
           </TouchableOpacity>
         </ImageBackground>
         <View style={styles.tabHotContainer}>
@@ -115,13 +124,11 @@ class MonitorScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-  }
+  return {}
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-  }
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MonitorScreen)

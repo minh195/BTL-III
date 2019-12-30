@@ -45,7 +45,13 @@ export default class CustomSidebarMenu extends Component {
   }
 
   _HandleLogOut = async () => {
-    await AsyncStorage.clear()
+    await AsyncStorage.removeItem('userToken', () => {})
+    await AsyncStorage.removeItem('avatar', () => {})
+    await AsyncStorage.removeItem('email', () => {})
+    await AsyncStorage.removeItem('userCode', () => {})
+    await AsyncStorage.removeItem('typeUser', () => {})
+    await AsyncStorage.removeItem('doctorCode', () => {})
+    await AsyncStorage.removeItem('typeUser', () => {})
     const resetAction = StackActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: 'SignInScreen' })]
@@ -71,25 +77,19 @@ export default class CustomSidebarMenu extends Component {
       // error reading value
     }
   }
+  onPressAvatar = () => {
+    this.props.navigation.navigate('FriendDetailScreen')
+  }
 
   render () {
     return (
       <View style={styles.sideMenuContainer}>
-        <Image source={{ uri: this.state.avatar }}
-               style={styles.sideMenuProfileIcon}/>
-        <View style={{
-          borderBottomWidth: 1,
-          borderBottomColor: '#e2e2e2',
-          paddingBottom: 10,
-          width: '100%',
-          marginBottom: 10,
-          alignItems: "center"
-        }}>
-          <Text style={{
-            marginTop: 5,
-            paddingHorizontal: 20,
-            textAlign: "center"
-          }}>
+        <TouchableOpacity onPress={this.onPressAvatar}>
+          <Image source={{ uri: this.state.avatar }}
+                 style={styles.sideMenuProfileIcon}/>
+        </TouchableOpacity>
+        <View style={styles.textContent}>
+          <Text style={styles.textEmail}>
             {this.state.email}
           </Text>
         </View>

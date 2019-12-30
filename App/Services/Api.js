@@ -12,8 +12,9 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
   const getDevice = (data) => api.get(`products?search=${data}`)
   const getLocation = (data) => api.get(`products`)
   const getHistory = () => api.get('historys?sortBy=date_time&order=asc')
-  const getDoctor=(data)=>api.get('doctors')
-  const getUserByDoctor=(data)=>api.get(`users?search=${data}`)
+  const getDoctor = (data) => api.get('doctors')
+  const getUserByDoctor = (data) => api.get(`users?search=${data}`)
+  const getUserByID = (data) => api.get(`doctors?search=${data}`)
   return {
     api,
     getUser,
@@ -21,7 +22,8 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
     getHistory,
     getLocation,
     getDoctor,
-    getUserByDoctor
+    getUserByDoctor,
+    getUserByID
   }
 }
 

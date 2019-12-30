@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Image } from 'react-native'
-import styles from './Styles/RenderListUserStyle'
-
+import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native'
+import styles from './Styles/RenderItemChatStyle'
+const width = Dimensions.get('window').width
 export default class RenderItemChat extends Component {
 
   constructor (props) {
@@ -14,6 +14,8 @@ export default class RenderItemChat extends Component {
 
   render () {
     let { item } = this.props
+    const today = new Date();
+    const time = today.getHours() + ":" + today.getSeconds();
     return (
       <View>
         <TouchableOpacity
@@ -22,8 +24,14 @@ export default class RenderItemChat extends Component {
         >
           <Image source={{ uri: item.avatar }} style={styles.imageStyle}/>
           <View style={styles.textContainer}>
-            <Text style={styles.textName}>{item.name}</Text>
-            <Text style={styles.textEmail}>{item.email}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'space-between' }}>
+              <Text style={styles.textName}>{item.name}</Text>
+              <Text>{time}</Text>
+            </View>
+            <View style={{width:width-100,flexDirection:'row', justifyContent:'space-between'}}>
+              <View style={{width:width-130}}><Text style={styles.textEmail} numberOfLines={1}>{item.email}</Text></View>
+              <Text>✓</Text>
+            </View>
           </View>
         </TouchableOpacity>
       </View>

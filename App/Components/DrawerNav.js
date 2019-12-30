@@ -8,7 +8,7 @@ import UserChatScreen from '../Containers/UserChatScreen'
 import MapScreen from '../Containers/MapScreen'
 import CustomSidebarMenu from './CustomSlidebarMenu'
 import ChooseDeviceScreen from '../Containers/ChooseDeviceScreen'
-
+import Chat from '../Containers/ChatScreen'
 global.currentScreenIndex = 0
 
 class NavigationDrawerStructure extends Component {

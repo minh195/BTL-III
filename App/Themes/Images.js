@@ -25,7 +25,8 @@ const images = {
   heartBeat: require('../Images/heartBeat.gif'),
   heartBeatWave: require('../Images/heartBeatWave.gif'),
   noData: require('../Images/no_data_found.png'),
-  logo2: require('../Images/logo2.png')
+  logo2: require('../Images/logo2.png'),
+  searching:require('../Images/search.gif')
 }
 
 export default images

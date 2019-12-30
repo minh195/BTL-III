@@ -6,7 +6,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingTop: 10,
     paddingBottom: 10,
-  }, sideMenuContainer: {
+  },
+  sideMenuContainer: {
     width: '100%',
     height: '100%',
     backgroundColor: '#fff',
@@ -22,7 +23,8 @@ export default StyleSheet.create({
     height: 1,
     backgroundColor: '#e2e2e2',
     marginTop: 15,
-  }, sideMenuProfileIcon: {
+  },
+  sideMenuProfileIcon: {
     width: 150,
     height: 150,
     marginTop: 20,
@@ -30,5 +32,18 @@ export default StyleSheet.create({
   },
   buttonLogOut: {
     marginTop: 10
+  },
+  textContent: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e2e2',
+    paddingBottom: 10,
+    width: '100%',
+    marginBottom: 10,
+    alignItems: 'center'
+  },
+  textEmail: {
+    marginTop: 5,
+    paddingHorizontal: 20,
+    textAlign: 'center'
   }
 })

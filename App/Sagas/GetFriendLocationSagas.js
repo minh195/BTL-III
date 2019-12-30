@@ -6,7 +6,6 @@ import GetFriendLocationActions from '../Redux/GetFriendLocationRedux'
 export function * getGetFriendLocation (api, action) {
   const { data } = action
   const response = yield call(api.getLocation)
-  console.log(response)
   // success?
   if (response.ok) {
     yield put(GetFriendLocationActions.getFriendLocationSuccess(response.data))
