@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1044016235397",
-    "firebase_url": "https://heart-rate-35d16.firebaseio.com",
-    "project_id": "heart-rate-35d16",
-    "storage_bucket": "heart-rate-35d16.appspot.com"
+    "project_number": "489610980700",
+    "firebase_url": "https://heart-rate-app-78387.firebaseio.com",
+    "project_id": "heart-rate-app-78387",
+    "storage_bucket": "heart-rate-app-78387.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1044016235397:android:ba54da30d0f6abca15faec",
+        "mobilesdk_app_id": "1:489610980700:android:b06c44bca89ba4942ea599",
         "android_client_info": {
           "package_name": "com.bltiii"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1044016235397-6u8iqlehnkveds8g7flnka6dpu4qqsgj.apps.googleusercontent.com",
+          "client_id": "489610980700-pfj0pcfcai5muunmh30qqueslkntgeql.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBQ5OVf-fwysnGld1Fytc8IKSP6VAvl0eY"
+          "current_key": "AIzaSyDmGHKBJXtzQ7vAqn3MkzhaBTwYcHpc7Ck"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1044016235397-6u8iqlehnkveds8g7flnka6dpu4qqsgj.apps.googleusercontent.com",
+              "client_id": "489610980700-pfj0pcfcai5muunmh30qqueslkntgeql.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

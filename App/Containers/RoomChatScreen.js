@@ -13,12 +13,11 @@ import styles from './Styles/RoomChatScreenStyle'
 
 class RoomChatScreen extends Component {
   constructor (props) {
-    super(props);
+    super(props)
     this.state = {
-      name: '',
-    };
+      name: ''
+    }
   }
-
 
   onPress = () =>
     this.props.navigation.navigate('ChatScreen', { name: this.state.name })
@@ -31,7 +30,7 @@ class RoomChatScreen extends Component {
         <Text style={styles.title}>Enter your name:</Text>
         <TextInput
           style={styles.nameInput}
-          placeHolder="Flutter God Evan Bacon"
+          placeHolder='Flutter God Evan Bacon'
           onChangeText={this.onChangeText}
           value={this.state.name}
         />

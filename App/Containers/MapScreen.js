@@ -3,12 +3,12 @@ import {
   View,
   TouchableOpacity,
   Image,
-  AsyncStorage,
+  AsyncStorage
 } from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 
-//import components
+// import components
 import PopUpFriend from '../Components/PopUpFriend'
 import Loading from '../Components/Loading'
 
@@ -29,7 +29,7 @@ class MapScreen extends Component {
         latitude: null,
         longitude: null,
         latitudeDelta: null,
-        longitudeDelta: null,
+        longitudeDelta: null
       },
       isDoctor: false,
       deviceData: []
@@ -67,7 +67,7 @@ class MapScreen extends Component {
             latitude: response[0] != null && parseFloat(response[2].lat),
             longitude: response[0] != null && parseFloat(response[2].lng),
             latitudeDelta: 0.09221,
-            longitudeDelta: 0.04211,
+            longitudeDelta: 0.04211
           }
         })
       }
@@ -78,7 +78,7 @@ class MapScreen extends Component {
         console.log('response null: ', response.length)
         if (response.length === 0) {
           this.setState({
-            isLoading: false,
+            isLoading: false
           })
           global.currentScreenIndex = 0
           alert('Không có thiết bị nào, liên hệ chúng tôi để được cung cấp thiết bị!')
@@ -91,7 +91,7 @@ class MapScreen extends Component {
               latitude: response[0] != null && parseFloat(response[0].lat),
               longitude: response[0] != null && parseFloat(response[0].lng),
               latitudeDelta: 0.09221,
-              longitudeDelta: 0.04211,
+              longitudeDelta: 0.04211
             }
           })
         }
@@ -106,25 +106,29 @@ class MapScreen extends Component {
         draggable
         coordinate={{
           latitude: parseFloat(marker.lat),
-          longitude: parseFloat(marker.lng),
+          longitude: parseFloat(marker.lng)
         }}
         title={marker.name}
-        onPress={() => {this.refs.addModal.showModal(marker)}
+        onPress={() => { this.refs.addModal.showModal(marker) }
         }>
         <View style={styles.maker}>
           <Image source={{ uri: marker.image }}
-                 style={styles.markerAvatar}/>
+            style={styles.markerAvatar} />
         </View>
       </Marker>
     ))
   }
   _showDetailFriend = async (friendData) => {
     await this.refs.addModal.hideModal()
-    await this.props.navigation.navigate(
-      'FriendDetailScreen',
-      { friendDetail: friendData }
+    this.props.navigation.navigate(
+      'MonitorScreen', {
+        idDevice: friendData.id,
+        paraRecent: friendData.parameter,
+        dateTime: friendData.date_time
+      }
     )
   }
+
   _signOutAsync = () => {
     global.currentScreenIndex = 0
     this.props.navigation.goBack()
@@ -134,14 +138,14 @@ class MapScreen extends Component {
     const { data, isLoading, deviceData, isDoctor } = this.state
     if (isLoading) {
       return (
-        <Loading/>
+        <Loading />
       )
     }
     return (
       <View>
-        <PopUpFriend ref={'addModal'} showFriend={this._showDetailFriend}/>
-        {(this.state.initialRegion.latitude != null && this.state.initialRegion.longitude != null && this.state.initialRegion.latitudeDelta != null && this.state.initialRegion.longitudeDelta != null)
-        && <MapView
+        <PopUpFriend ref={'addModal'} showFriend={this._showDetailFriend} />
+        {(this.state.initialRegion.latitude != null && this.state.initialRegion.longitude != null && this.state.initialRegion.latitudeDelta != null && this.state.initialRegion.longitudeDelta != null) &&
+        <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.mapContainer}
           initialRegion={this.state.initialRegion}>
@@ -149,7 +153,7 @@ class MapScreen extends Component {
         </MapView>}
         <View style={styles.signOutButton}>
           <TouchableOpacity onPress={this._signOutAsync}>
-            <Icon name="arrow-left" size={25} color="#82C91E"/>
+            <Icon name='arrow-left' size={25} color='#82C91E' />
           </TouchableOpacity>
         </View>
       </View>

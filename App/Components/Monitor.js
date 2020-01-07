@@ -3,21 +3,21 @@ import React, { Component } from 'react'
 import { View, Text, Image } from 'react-native'
 import styles from './Styles/MonitorStyle'
 import { Images } from '../Themes'
+import moment from 'moment'
 
 export default class Monitor extends Component {
-
   render () {
     return (
       <View style={styles.content}>
-        <Image source={Images.heartBeat} style={styles.heartBeatGif}/>
+        <Image source={Images.heartBeat} style={styles.heartBeatGif} />
         <View style={styles.valueContent}>
           <Text style={styles.valueText}>{this.props.param}</Text>
           <Text style={styles.unitText}>nhịp/phút</Text>
           <Text style={styles.unitText}>
-            ({Date(this.props.dateTimeParam).toString().split(" ")[4]} {Date(this.props.dateTimeParam).toString().split(" ")[0]} {Date(this.props.dateTimeParam).toString().split(" ")[1]} {Date(this.props.dateTimeParam).toString().split(" ")[2]} {Date(this.props.dateTimeParam).toString().split(" ")[3]})
+            ({moment(this.props.dateTimeParam).format('LT')} {moment(this.props.dateTimeParam).format('l')})
           </Text>
         </View>
-        <Image source={Images.heartBeatWave} style={styles.heartBeatWaveGif}/>
+        <Image source={Images.heartBeatWave} style={styles.heartBeatWaveGif} />
       </View>
     )
   }

@@ -18,7 +18,7 @@ import SignInTypes from '../Redux/SignInRedux'
 
 import { NavigationActions, StackActions } from 'react-navigation'
 
-//import components
+// import components
 import { api } from '../Sagas'
 import PopUpFriend from '../Components/PopUpFriend'
 
@@ -44,10 +44,10 @@ class SignInScreen extends Component {
       this.props.navigation.navigate(userToken ? 'Drawer' : 'SignInScreen')
     })
     this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
+      'keyboardDidShow'
     )
     this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
+      'keyboardDidHide'
     )
   }
 
@@ -59,7 +59,7 @@ class SignInScreen extends Component {
   )
   _addData = (email, password) => {
     if (this.state.email === '' || this.state.password === '') {
-      alert('You must be input email and password!!')
+      alert('Bạn cần nhập tên đăng nhập và mật khẩu!')
     } else {
       Keyboard.dismiss()
       if (this.state.isDoctor) this.handleSignForDoctor()
@@ -106,7 +106,7 @@ class SignInScreen extends Component {
     await response.map(async (item, index) => {
       if (item.user_name === email && item.password === password) {
         this.setState({
-          userData: item,
+          userData: item
         })
         api.api.setHeader('Authorization', `Bearer ${item.token}`)
         await AsyncStorage.setItem('userToken', item.token)
@@ -142,46 +142,45 @@ class SignInScreen extends Component {
 
   render () {
     const renderLoginText = () => {
-      if (!this.props.user.fetching && !this.props.doctor.fetching)
-        return (<Text style={styles.loginText}>Đăng nhập</Text>)
+      if (!this.props.user.fetching && !this.props.doctor.fetching) { return (<Text style={styles.loginText}>Đăng nhập</Text>) }
     }
     return (
       <View style={styles.container}>
-        <PopUpFriend ref={'addModal'}/>
+        <PopUpFriend ref={'addModal'} />
         <View style={styles.header}>
           <Image style={styles.origamiBird}
-                 source={Images.origamiBird}/>
+            source={Images.origamiBird} />
         </View>
         <View style={styles.content}>
           <Image style={styles.avatarUser}
-                 source={Images.avatarUser}/>
+            source={Images.avatarUser} />
           <Image style={styles.topLoginFrom}
-                 source={Images.topLoginFrom}/>
+            source={Images.topLoginFrom} />
           <View style={styles.loginContainer}>
             <View style={styles.inputContainer}>
               <Image style={styles.inputIcon}
-                     source={Images.iconUser}/>
+                source={Images.iconUser} />
               <TextInput style={styles.inputs}
-                         placeholder="Tên đăng nhập"
-                         keyboardType="email-address"
-                         underlineColorAndroid='transparent'
-                         placeholderTextColor="lightblue"
-                         onChangeText={this._onChangeEmail}
-                         value={this.state.email}/>
+                placeholder='Tên đăng nhập'
+                keyboardType='email-address'
+                underlineColorAndroid='transparent'
+                placeholderTextColor='lightblue'
+                onChangeText={this._onChangeEmail}
+                value={this.state.email} />
             </View>
             <View style={styles.inputContainer}>
               <Image style={styles.inputIcon}
-                     source={Images.iconPassword}/>
+                source={Images.iconPassword} />
               <TextInput style={styles.inputs}
-                         placeholder="Mật khẩu"
-                         secureTextEntry={true}
-                         underlineColorAndroid='transparent'
-                         placeholderTextColor="lightblue"
-                         onChangeText={this._onChangePassword}
-                         value={this.state.password}/>
+                placeholder='Mật khẩu'
+                secureTextEntry
+                underlineColorAndroid='transparent'
+                placeholderTextColor='lightblue'
+                onChangeText={this._onChangePassword}
+                value={this.state.password} />
             </View>
             <TouchableOpacity style={styles.checkBox}
-                              onPress={this.onChangeDoctor}
+              onPress={this.onChangeDoctor}
             >
               <CheckBox
                 value={this.state.isDoctor}
@@ -191,13 +190,13 @@ class SignInScreen extends Component {
                 sĩ</Text>
             </TouchableOpacity>
             {this.state.message !== '' && <Text style={styles.messageText}>
-              {this.state.message}
-            </Text>}
+                {this.state.message}
+              </Text>}
           </View>
           <TouchableOpacity onPress={this._handleAddData} style={styles.loginButton}>
-            {this.props.doctor.fetching && <ActivityIndicator size="small" color="white"/>}
+            {this.props.doctor.fetching && <ActivityIndicator size='small' color='white' />}
             {renderLoginText()}
-            {this.props.user.fetching && <ActivityIndicator size="small" color="white"/>}
+            {this.props.user.fetching && <ActivityIndicator size='small' color='white' />}
           </TouchableOpacity>
           <TouchableOpacity onPress={this._handleSignUp} style={styles.footerButton}>
             <Text style={styles.signUpButton}>Đăng kí</Text>

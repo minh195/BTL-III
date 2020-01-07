@@ -9,12 +9,12 @@ class Fire {
   init = () => {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: 'AIzaSyAqqvVKpZdkofslKbvKFmEsaGdDC8MExqI',
-        authDomain: 'heart-rate-35d16.firebaseapp.com',
-        databaseURL: 'https://heart-rate-35d16.firebaseio.com',
-        projectId: 'heart-rate-35d16',
+        apiKey: 'AIzaSyCFsd2EZnc3fOHftN7g-D2IkHVcJk9hWEo',
+        authDomain: 'heart-rate-app-78387.firebaseapp.com',
+        databaseURL: 'https://heart-rate-app-78387.firebaseio.com',
+        projectId: 'heart-rate-app-78387',
         storageBucket: '',
-        messagingSenderId: '1044016235397',
+        messagingSenderId: '489610980700',
       });
     }
   };

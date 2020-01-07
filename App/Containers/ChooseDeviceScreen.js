@@ -7,7 +7,7 @@ import {
   AsyncStorage,
   ScrollView,
   RefreshControl,
-  ActivityIndicator,
+  ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
 
@@ -59,14 +59,14 @@ class ChooseDeviceScreen extends Component {
   renderItem = ({ item, index }) => {
     return (
       <RenderListDevice item={item}
-                        handleNavigate2={this.handleNavigate2}
+        handleNavigate2={this.handleNavigate2}
       />
     )
   }
   renderItemUser = ({ item, index }) => {
     return (
       <RenderListUser item={item}
-                      handleNavigateToDevice={this.handleNavigateToDevice}
+        handleNavigateToDevice={this.handleNavigateToDevice}
       />
     )
   }
@@ -96,9 +96,11 @@ class ChooseDeviceScreen extends Component {
   }
 
   saveDevice = async (nextProps, response) => {
+    await AsyncStorage.setItem('amount', response.length.toString())
     this.setState({ deviceData: response })
   }
   saveUser = async (nextProps, response) => {
+    await AsyncStorage.setItem('amount', response.length.toString())
     this.setState({ userData: response })
   }
 
@@ -138,17 +140,17 @@ class ChooseDeviceScreen extends Component {
         style={{ backgroundColor: '#F3F5F7' }}
       >
         <ImageBackground source={Images.backgroundHeaderBar}
-                         style={styles.backgroundHeaderBar}>
+          style={styles.backgroundHeaderBar}>
           <TouchableOpacity
             onPress={this.openDrawer}
             style={styles.menuIcon}
           >
-            <Icon name="bars" size={30} color="#FFF"/>
+            <Icon name='bars' size={30} color='#FFF' />
           </TouchableOpacity>
           {!this.state.isDoctor && <Text style={styles.textName}>Danh sách thiết bị</Text>}
           {this.state.isDoctor && <Text style={styles.textName}>Danh sách người dùng</Text>}
           <TouchableOpacity style={styles.bellIcon}>
-            {/*<Icon name="bell" size={25} color="#FFF"/>*/}
+            {/* <Icon name="bell" size={25} color="#FFF"/> */}
           </TouchableOpacity>
         </ImageBackground>
         <Text style={styles.txDeviceList}>Danh sách:</Text>
@@ -158,15 +160,15 @@ class ChooseDeviceScreen extends Component {
           renderItem={this.renderItemUser}
         />}
         {(this.state.isDoctor && this.props.user.fetching) &&
-        <ActivityIndicator size="large" color="#0000ff"/>}
+        <ActivityIndicator size='large' color='#0000ff' />}
         {!this.state.isDoctor &&
         <FlatList
           data={this.state.deviceData}
           renderItem={this.renderItem}
         />}
-        {(!this.state.isDoctor && this.state.deviceData.length === 0 && !this.props.deviceList.fetching) && <NoData/>}
+        {(!this.state.isDoctor && this.state.deviceData.length === 0 && !this.props.deviceList.fetching) && <NoData />}
         {(!this.state.isDoctor && this.props.deviceList.fetching) &&
-        <ActivityIndicator size="large" color="#0000ff"/>}
+        <ActivityIndicator size='large' color='#0000ff' />}
       </ScrollView>
     )
   }

@@ -5,7 +5,7 @@ import {
   Image,
   View,
   TouchableOpacity,
-  Modal,
+  Modal
 } from 'react-native'
 
 export default class PopUpFriend extends Component {
@@ -22,7 +22,6 @@ export default class PopUpFriend extends Component {
   }
 
   showModal = (maker) => {
-    const { friendData } = this.state
     this.setState((state) => {
       return { friendData: maker }
     })
@@ -40,36 +39,23 @@ export default class PopUpFriend extends Component {
     const { friendData } = this.state
     return (
       <Modal ref={'myModal'}
-             transparent={true}
-             visible={this.state.modalVisible}
-             animated={true}>
+        transparent
+        visible={this.state.modalVisible}
+        animated>
         <View style={styles.popUpTransparent}>
           <View style={styles.containerPopUp}>
             <View style={styles.headerContainer}>
-              <Image source={{ uri: this.state.friendData.url_avatar }}
-                     style={styles.popUpImage}/>
-              <View style={styles.textContainer}>
-                <Text style={styles.textWelcome}>
-                  {this.state.friendData.fullname}
-                </Text>
-                <Text style={styles.birthDayText}>
-                  {this.state.friendData.birth_day}
-                </Text>
-              </View>
+              <Image source={{ uri: friendData.image }}
+                style={styles.popUpImage} />
               <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.buttonNext}
-                                  onPress={this._showFriend}>
-                  <Text style={styles.textNext}>Follow</Text>
+                  onPress={this._showFriend}>
+                  <Text style={styles.textNext}>Chi tiết</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.hideModal}>
-                  <Text style={styles.textSkip}>SKIP</Text>
+                  <Text style={styles.textSkip}>Bỏ qua</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <View style={styles.footerContainer}>
-              <Image source={{ uri: this.state.friendData.url_bks }}
-                     style={styles.imageShot}/>
-              <Text style={styles.counterText}> 1/8</Text>
             </View>
           </View>
         </View>

@@ -21,13 +21,18 @@ class FriendDetailScreen extends Component {
     this.state = {
       dataProfile: [],
       currentYear: 2020,
-      isDoctor: false
+      isDoctor: false,
+      amount: '0'
     }
   }
 
   async componentDidMount () {
     try {
       const type = await AsyncStorage.getItem('typeUser')
+      const amount = await AsyncStorage.getItem('amount')
+      this.setState({
+        amount: amount
+      })
       if (type === 'doctor') {
         this.setState({
           isDoctor: true
@@ -70,14 +75,14 @@ class FriendDetailScreen extends Component {
         style={styles.imageFlatList}>
         <Image
           source={{ uri: this.state.dataProfile.avatar }}
-          style={styles.imageRecent}/>
+          style={styles.imageRecent} />
       </View>
     )
   }
   _handleGoBack = () => this.props.navigation.dispatch(NavigationActions.back())
 
   render () {
-    const { dataProfile, currentYear, isDoctor } = this.state
+    const { dataProfile, currentYear, isDoctor, amount } = this.state
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -85,7 +90,7 @@ class FriendDetailScreen extends Component {
           style={styles.friendAvatar}>
           <TouchableOpacity onPress={this._handleGoBack}>
             <View style={styles.backIcon}>
-              <Icon name="arrow-circle-left" size={25} color="#82C91E"/>
+              <Icon name='arrow-circle-left' size={25} color='#82C91E' />
             </View>
           </TouchableOpacity>
         </ImageBackground>
@@ -93,7 +98,7 @@ class FriendDetailScreen extends Component {
           <View style={styles.infoContainer}>
             <View style={styles.infoHeader}>
               {(this.props.user.fetching || this.props.doctor.fetching) &&
-              <ActivityIndicator size="large" color="blue"/>}
+              <ActivityIndicator size='large' color='blue' />}
               {dataProfile.length !== 0 && <View style={{alignItems: 'center'}}>
                 <Text style={styles.fullNameText}>{dataProfile.name}</Text>
                 <Text style={styles.companyText}>{dataProfile.email}</Text>
@@ -102,7 +107,7 @@ class FriendDetailScreen extends Component {
             <View style={styles.counterContainer}>
               <View style={styles.widthDivThree}>
                 <Text style={styles.textInfo}>{isDoctor ? 'Người dùng' : 'Thiết bị'}</Text>
-                <Text style={styles.textNumber}>2</Text>
+                <Text style={styles.textNumber}>{amount}</Text>
               </View>
               <View style={styles.widthDivThree}>
                 <Text style={styles.textInfo}>Tuổi</Text>
@@ -131,9 +136,9 @@ class FriendDetailScreen extends Component {
                 { key: 4 }
               ]}
               renderItem={this._renderItem}
-              horizontal={true}/>
+              horizontal />
           </View>
-          <View/>
+          <View />
         </View>
       </View>
     )

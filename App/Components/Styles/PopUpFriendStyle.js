@@ -21,33 +21,39 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   popUpImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 30
-  }, topImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50
+  },
+  topImage: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
-  }, buttonNext: {
+  },
+  buttonNext: {
     backgroundColor: '#F65973',
-    width: 70,
-    height: 30,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-
-  }, textNext: {
+    padding: 10,
+    marginBottom: 10
+  },
+  textNext: {
     color: 'white',
-    fontSize: 14,
-  }, textSkip: {
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  textSkip: {
     color: '#F65973',
     fontSize: 20,
     fontWeight: 'bold'
-  }, textWelcome: {
+  },
+  textWelcome: {
     fontSize: 20,
     color: 'black'
-  }, textIntro: {
+  },
+  textIntro: {
     fontSize: 20,
     textAlign: 'center',
     padding: 15,
@@ -74,7 +80,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginLeft:25
+    marginLeft: 25
   },
   imageShot: {
     height: 80,

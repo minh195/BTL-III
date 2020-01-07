@@ -108,7 +108,7 @@ export default StyleSheet.create({
   loginButton: {
     backgroundColor: '#73d0e2',
     height: 40,
-    width: 120,
+    width: 130,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
@@ -119,7 +119,7 @@ export default StyleSheet.create({
   SignUpButton: {
     backgroundColor: '#73d0e2',
     height: 40,
-    width: 120,
+    width: 130,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
