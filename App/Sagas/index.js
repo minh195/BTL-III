@@ -11,6 +11,7 @@ import { GetHistoryTypes } from '../Redux/GetHistoryRedux'
 import { DoctorTypes } from '../Redux/DoctorRedux'
 import { GetUserByDoctorTypes } from '../Redux/GetUserByDoctorRedux'
 import { GetUserByIdTypes } from '../Redux/GetUserByIdRedux'
+import {SignUpTypes} from '../Redux/SignUpRedux'
 /* ------------- Sagas ------------- */
 
 import { getSignIn } from './SignInSagas'
@@ -22,6 +23,7 @@ import { getGetHistory } from './GetHistorySagas'
 import { getDoctor } from './DoctorSagas'
 import { getGetUserByDoctor } from './GetUserByDoctorSagas'
 import { getGetUserById } from './GetUserByIdSagas'
+import {getSignUp} from './SignUpSagas'
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -31,9 +33,9 @@ export const api2 = API.create2()
 // export const api3 = API.create3()
 
 /* ------------- Connect Types To Sagas ------------- */
-AsyncStorage.getItem('userToken').then((value => {
+AsyncStorage.getItem('userToken').then(value => {
   api.api.setHeader('Authorization', `Bearer ${value}`)
-}))
+})
 export default function * root () {
   yield all([
     // some sagas receive extra parameters in addition to an action
@@ -44,6 +46,7 @@ export default function * root () {
     takeLatest(GetHistoryTypes.GET_HISTORY_REQUEST, getGetHistory, api),
     takeLatest(DoctorTypes.DOCTOR_REQUEST, getDoctor, api),
     takeLatest(GetUserByDoctorTypes.GET_USER_BY_DOCTOR_REQUEST, getGetUserByDoctor, api),
-    takeLatest(GetUserByIdTypes.GET_USER_BY_ID_REQUEST, getGetUserById, api)
+    takeLatest(GetUserByIdTypes.GET_USER_BY_ID_REQUEST, getGetUserById, api),
+    takeLatest(SignUpTypes.SIGN_UP_REQUEST, getSignUp, api)
   ])
 }

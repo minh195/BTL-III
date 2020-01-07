@@ -15,6 +15,9 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
   const getDoctor = (data) => api.get('doctors')
   const getUserByDoctor = (data) => api.get(`users?search=${data}`)
   const getUserByID = (data) => api.get(`doctors?search=${data}`)
+  const signUp = (data) => api.post(`users?`, {
+
+  })
   return {
     api,
     getUser,
@@ -23,11 +26,12 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
     getLocation,
     getDoctor,
     getUserByDoctor,
-    getUserByID
+    getUserByID,
+    signUp
   }
 }
 
-//get chat
+// get chat
 const create2 = (baseURL = `http://ghuntur.com`) => {
   const api2 = apisauce.create({
     // base URL is read from the "constructor"
@@ -35,7 +39,7 @@ const create2 = (baseURL = `http://ghuntur.com`) => {
     // here are some default headers
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     // 10 second timeout...
     timeout: 10000
@@ -71,6 +75,6 @@ const create2 = (baseURL = `http://ghuntur.com`) => {
 // let's return back our create method as the default.
 export default {
   create,
-  create2,
+  create2
   // create3
 }

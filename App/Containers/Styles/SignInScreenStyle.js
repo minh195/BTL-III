@@ -6,7 +6,7 @@ export default StyleSheet.create({
     backgroundColor: '#EFF5FF',
     justifyContent: 'space-around',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   keyBoardAvoidingView: {
     flex: 1
@@ -15,7 +15,7 @@ export default StyleSheet.create({
     flex: 0.3,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   origamiBird: {
     height: 80,
@@ -24,7 +24,7 @@ export default StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   avatarUser: {
     height: 77,
@@ -34,7 +34,8 @@ export default StyleSheet.create({
   topLoginFrom: {
     marginTop: -85,
     height: 119,
-    width: 300
+    width: 300,
+    zIndex: 0
   },
   loginContainer: {
     flex: 0.6,
@@ -64,20 +65,20 @@ export default StyleSheet.create({
     marginBottom: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: 'black',
+    borderColor: 'black'
   },
   inputs: {
     height: 45,
     marginLeft: 16,
     borderBottomColor: '#FFFFFF',
     flex: 1,
-    zIndex:90
+    zIndex: 90
   },
   inputIcon: {
     width: 16,
     height: 20,
     marginLeft: 15,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   forgotButton: {
     marginLeft: 140
@@ -88,16 +89,16 @@ export default StyleSheet.create({
     marginLeft: -10
   },
   forgotText: {
-    fontSize: 12,
+    fontSize: 12
   },
-  messageText:{
+  messageText: {
     fontSize: 12,
     color: 'red'
   },
   footerButton: {
     flex: 0.15,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   footerIcon: {
     flex: 0.2,
@@ -135,11 +136,11 @@ export default StyleSheet.create({
   },
   signUpButton: {
     color: '#73d0e2',
-    fontSize: 16,
+    fontSize: 16
   },
   goBackIcon: {
     width: 40,
-    height: 40,
+    height: 40
 
-  },
+  }
 })
