@@ -5,13 +5,14 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  Keyboard
+  Alert, ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
 // Styles
 import styles from './Styles/SignInScreenStyle'
 import { Images } from '../Themes'
 import SignInTypes from '../Redux/SignInRedux'
+import SignUpTypes from '../Redux/SignUpRedux'
 
 class SignUpScreen extends Component {
   constructor (props) {
@@ -21,66 +22,103 @@ class SignUpScreen extends Component {
       password: '',
       rePassword: '',
       userData: [],
-      message: ''
+      message: '',
+      isSameUsername: false,
+      isSuccess: false
     }
   }
 
   componentDidMount () {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow'
-    )
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide'
-    )
+    try {
+      this.props.onFetchUser()
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   _onChangeEmail = (text) => this.setState({ email: text })
   _onChangePassword = (text) => this.setState({ password: text })
-  _onChangeRePassword = (text) => this.setState({ password: text })
-  _handleAddData = () => this._addData(
-    { email: this.state.email },
-    { password: this.state.password }
-  )
-  _addData = (email, password) => {
+  _onChangeRePassword = (text) => this.setState({ rePassword: text })
+
+  _handleAddData = () => {
     if (this.state.email === '' || this.state.password === '') {
-      alert('Bạn cần nhập tên đăng nhập và mật khẩu!')
+      Alert.alert(
+        'Thông báo',
+        'Bạn cần nhập tên đăng nhập và mật khẩu!',
+        [
+          { text: 'OK' }
+        ],
+        { cancelable: true }
+      )
+    } else if (this.state.email.length < 6 || this.state.password < 6) {
+      Alert.alert(
+        'Thông báo',
+        'Tên đăng nhập mật khẩu có 6 kí tự trở lên!',
+        [
+          { text: 'OK' }
+        ],
+        { cancelable: true }
+      )
     } else {
-      Keyboard.dismiss()
-      this._handleSignUp(email, password).then()
+      if (this.state.password !== this.state.rePassword) {
+        Alert.alert(
+          'Thông báo',
+          'Mật khẩu bạn nhập không trùng nhau!',
+          [
+            { text: 'OK' }
+          ],
+          { cancelable: true }
+        )
+      } else {
+        this._handleSignUp()
+      }
     }
   }
-  _handleSignUp = async (email, password) => {
-    let data = {
-      emailData: email,
-      passwordData: password
-    }
-    try {
-      await this.props.onFetchUser(data)
-    } catch (e) {
-      console.log(e)
+  _handleSignUp = () => {
+    if (this.state.userData.indexOf(this.state.email) === -1) {
+      this.props.onSignUp({
+        user_name: this.state.email,
+        password: this.state.password
+      })
+      if (this.state.isSuccess) {
+        Alert.alert(
+          'Thông báo',
+          'Bạn đã đăng kí thành công!',
+          [
+            { text: 'OK',
+              onPress: () => this.props.navigation.navigate('SignInScreen',
+                {username: this.state.email}) }
+          ],
+          { cancelable: false }
+        )
+      }
+    } else {
+      Alert.alert(
+        'Thông báo',
+        'Tên đăng nhập đã bị trùng!',
+        [
+          { text: 'OK' }
+        ],
+        { cancelable: true }
+      )
     }
   }
 
   componentWillReceiveProps (nextProps) {
     let response = nextProps.user.payload
     if (response != null) {
-      this.saveUser(nextProps, response).then()
+      response.map((item, index) => {
+        this.state.userData.push(item.user_name)
+      })
+    }
+    let responseSignUp = nextProps.signUp.payload
+    if (responseSignUp != null) {
+      this.setState({
+        isSuccess: true
+      })
     }
   }
-  saveUser = async (nextProps, response) => {
-    let { email, password } = this.state
 
-    // if (this.state.userData.length === 0) {
-    //   this.setState({
-    //     message: 'Sai tên tài khoản hoặc mật khẩu!'
-    //   })
-    // }
-    // setTimeout(() => {
-    //   this.setState({
-    //     message: ''
-    //   })
-    // }, 2000)
-  }
   _handleGoBack = () => this.props.navigation.goBack()
 
   render () {
@@ -133,8 +171,14 @@ class SignUpScreen extends Component {
               />
             </View>
           </View>
-          <TouchableOpacity onPress={this._handleAddData} style={styles.SignUpButton}>
-            <Text style={styles.loginText}>Đăng kí</Text>
+          <TouchableOpacity onPress={this._handleAddData}
+            style={styles.loginButton}
+            disabled={this.props.user.fetching}
+          >
+            {(!this.props.user.fetching && !this.props.signUp.fetching) &&
+            <Text style={styles.loginText}>Đăng kí</Text>}
+            {(this.props.user.fetching || this.props.signUp.fetching) &&
+            <ActivityIndicator size='small' color='white' />}
           </TouchableOpacity>
           <TouchableOpacity onPress={this._handleGoBack} style={styles.footerIcon}>
             <Image style={styles.goBackIcon}
@@ -148,14 +192,18 @@ class SignUpScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.signIn
+    user: state.signIn,
+    signUp: state.signUp
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFetchUser: (data) => {
-      dispatch(SignInTypes.signInRequest(data))
+    onFetchUser: () => {
+      dispatch(SignInTypes.signInRequest())
+    },
+    onSignUp: (data) => {
+      dispatch(SignUpTypes.signUpRequest(data))
     }
   }
 }

@@ -60,7 +60,7 @@ class HistoryScreen extends Component {
   componentWillReceiveProps (nextProps) {
     const response = nextProps.history.payload
     if (response != null) {
-      this.saveHistory(nextProps, response).then()
+      this.saveHistory(nextProps, response)
     }
   }
 

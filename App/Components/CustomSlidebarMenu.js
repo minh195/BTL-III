@@ -60,7 +60,7 @@ export default class CustomSidebarMenu extends Component {
   }
 
   componentDidMount () {
-    this.getData().then()
+    this.getData()
   }
 
   getData = async () => {

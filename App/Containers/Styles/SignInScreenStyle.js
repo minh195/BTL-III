@@ -136,7 +136,8 @@ export default StyleSheet.create({
   },
   signUpButton: {
     color: '#73d0e2',
-    fontSize: 16
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   goBackIcon: {
     width: 40,

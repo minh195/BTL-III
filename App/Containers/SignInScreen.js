@@ -6,10 +6,10 @@ import {
   Text,
   TextInput,
   Keyboard,
-  KeyboardAvoidingView,
   AsyncStorage,
   ActivityIndicator,
-  CheckBox
+  CheckBox,
+  Alert
 } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -40,9 +40,11 @@ class SignInScreen extends Component {
   }
 
   componentDidMount () {
-    AsyncStorage.getItem('userToken').then((userToken) => {
-      this.props.navigation.navigate(userToken ? 'Drawer' : 'SignInScreen')
-    })
+    if (this.props.navigation.getParam('username') != null) {
+      this.setState({
+        email: this.props.navigation.getParam('username')
+      })
+    }
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow'
     )
@@ -59,11 +61,18 @@ class SignInScreen extends Component {
   )
   _addData = (email, password) => {
     if (this.state.email === '' || this.state.password === '') {
-      alert('Bạn cần nhập tên đăng nhập và mật khẩu!')
+      Alert.alert(
+        'Thông báo',
+        'Bạn cần nhập tên đăng nhập và mật khẩu!',
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')}
+        ],
+        {cancelable: true}
+      )
     } else {
       Keyboard.dismiss()
       if (this.state.isDoctor) this.handleSignForDoctor()
-      else this._handleSignIn(email, password).then()
+      else this._handleSignIn(email, password)
     }
   }
   _handleSignIn = async (email, password) => {
@@ -90,9 +99,10 @@ class SignInScreen extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log("_____________")
     let response = this.state.isDoctor ? nextProps.doctor.payload : nextProps.user.payload
     if (response != null) {
-      this.saveUser(nextProps, response).then()
+      this.saveUser(nextProps, response)
     }
   }
 

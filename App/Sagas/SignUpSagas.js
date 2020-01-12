@@ -16,6 +16,7 @@ import SignUpActions from '../Redux/SignUpRedux'
 
 export function * getSignUp (api, action) {
   const { data } = action
+  console.log('data: ', data)
   // get current data from Store
   // const currentData = yield select(SignUpSelectors.getData)
   // make the call to the api

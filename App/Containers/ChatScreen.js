@@ -71,7 +71,7 @@ class ChatScreen extends Component {
         })
       }
     })
-    this.getData().then()
+    this.getData()
 
   }
 

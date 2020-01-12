@@ -15,9 +15,7 @@ const create = (baseURL = 'https://5dcd7cd3d795470014e4d1cd.mockapi.io/') => {
   const getDoctor = (data) => api.get('doctors')
   const getUserByDoctor = (data) => api.get(`users?search=${data}`)
   const getUserByID = (data) => api.get(`doctors?search=${data}`)
-  const signUp = (data) => api.post(`users?`, {
-
-  })
+  const signUp = (data) => api.post(`users?`, data)
   return {
     api,
     getUser,
